@@ -8,6 +8,7 @@ import entity.Order;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import rbac.Permission;
 import rbac.Session;
 import rbac.SessionManager;
@@ -70,5 +71,10 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         } else {
             throw new AccessException("You can't update order.status!");
         }
+    }
+
+    @Override
+    public List<Order> getAllOrder(String sessionId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

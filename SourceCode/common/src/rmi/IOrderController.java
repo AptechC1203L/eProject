@@ -7,6 +7,7 @@ package rmi;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import entity.Order;
+import java.util.List;
 import rbac.Session;
 
 /**
@@ -18,6 +19,8 @@ public interface IOrderController extends Remote {
     boolean createOrder(String sessionId, Order order) throws RemoteException;
 
     Order getOrder(String sessionId, String orderId) throws RemoteException;
+    
+    List<Order> getAllOrder(String sessionId) throws RemoteException;
 
     boolean updateOrder(String sessionId, Order newOrder) throws RemoteException;
 
