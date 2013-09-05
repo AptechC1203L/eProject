@@ -122,16 +122,11 @@ public class LoginDialog extends javax.swing.JDialog {
             if (session != null) {
                 this.setVisible(false);
             } else {
-                JOptionPane.showMessageDialog(this,
-                    "Wrong username or password!",
-                    "Error!",
-                    JOptionPane.ERROR_MESSAGE);
+                Utils.showErrorDialog(this,
+                        "Wrong username or password!");
             }
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
-            JOptionPane.showMessageDialog(this,
-                    "Communication error with server!",
-                    "Error!",
-                    JOptionPane.ERROR_MESSAGE);
+            Utils.showErrorDialog(this, "Communication error!");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
