@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import javax.swing.JOptionPane;
 import rbac.Session;
 import rmi.IAuthenticator;
 
@@ -25,7 +26,6 @@ public class LoginDialog extends javax.swing.JDialog {
     public LoginDialog(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
-        this.failLabel.setVisible(false);
     }
 
     /**
@@ -43,7 +43,6 @@ public class LoginDialog extends javax.swing.JDialog {
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
-        failLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -66,9 +65,6 @@ public class LoginDialog extends javax.swing.JDialog {
             }
         });
 
-        failLabel.setForeground(new java.awt.Color(255, 51, 0));
-        failLabel.setText("Login failed!");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,13 +73,10 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(failLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(exitButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(loginButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -110,8 +103,7 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(exitButton)
-                    .addComponent(failLabel))
+                    .addComponent(exitButton))
                 .addContainerGap())
         );
 
@@ -130,11 +122,16 @@ public class LoginDialog extends javax.swing.JDialog {
             if (session != null) {
                 this.setVisible(false);
             } else {
-                this.failLabel.setVisible(true);
+                JOptionPane.showMessageDialog(this,
+                    "Wrong username or password!",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
             }
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
-            // TODO Create a proper panic dialog
-            System.out.println("Cannot connect to server");
+            JOptionPane.showMessageDialog(this,
+                    "Communication error with server!",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
@@ -150,7 +147,6 @@ public class LoginDialog extends javax.swing.JDialog {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitButton;
-    private javax.swing.JLabel failLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginButton;
