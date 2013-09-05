@@ -30,31 +30,30 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
 
     @Override
     public boolean createOrder(String sessionId,  Order order) throws RemoteException {
-        if (sessionManager.isAuthorized(
+        sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
-                new Permission("create", "order"))) {
-            singletonOrder = order;
-            return true;
-        } else {
-            throw new AccessException("You can't create order!");
-        }
+                new Permission("create", "order"));
+        
+        singletonOrder = order;
+        return true;
     }
 
     @Override
     public Order getOrder(String sessionId, String orderId) throws RemoteException {
+        sessionManager.isAuthorizedWithSideEffect(
+                sessionId,
+                new Permission("get", "order"));
         return singletonOrder;
     }
 
     @Override
     public boolean updateOrder(String sessionId, Order newOrder) throws RemoteException {
-        if (sessionManager.isAuthorized(
+        sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
-                new Permission("update", "order"))) {
-            singletonOrder = newOrder;
-            return true;
-        } else {
-            throw new AccessException("You can't update order!");
-        }
+                new Permission("update", "order"));
+        
+        singletonOrder = newOrder;
+        return true;
     }
 
     @Override
@@ -64,18 +63,20 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
 
     @Override
     public boolean updateOrderStatus(String sessionId, String orderId, String newStatus) throws RemoteException {
-        if (sessionManager.isAuthorized(
+        sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
-                new Permission("update", "order.status"))) {
-            singletonOrder.setStatus(newStatus);
-            return true;
-        } else {
-            throw new AccessException("You can't update order.status!");
-        }
+                new Permission("update", "order.status"));
+ 
+        singletonOrder.setStatus(newStatus);
+        return true;
     }
 
     @Override
     public List<Order> getAllOrders(String sessionId) throws RemoteException {
+        sessionManager.isAuthorizedWithSideEffect(
+                sessionId,
+                new Permission("get", "order"));
+        
         ArrayList<Order> allOrders = new ArrayList();
         allOrders.add(singletonOrder);
         return allOrders;
