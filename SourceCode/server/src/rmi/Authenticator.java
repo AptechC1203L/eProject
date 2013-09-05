@@ -33,6 +33,9 @@ public class Authenticator extends UnicastRemoteObject implements IAuthenticator
         Role admin = new Role();
         ArrayList<Permission> permission = new ArrayList<>();
         permission.add(new Permission("create", "order"));
+        permission.add(new Permission("view", "order"));
+        permission.add(new Permission("update", "order"));
+        permission.add(new Permission("remove", "order"));
         permission.add(new Permission("update", "order.status"));
         admin.setPermissions(permission);
         

@@ -42,7 +42,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
     public Order getOrder(String sessionId, String orderId) throws RemoteException {
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
-                new Permission("get", "order"));
+                new Permission("view", "order"));
         return singletonOrder;
     }
 
@@ -75,7 +75,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
     public List<Order> getAllOrders(String sessionId) throws RemoteException {
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
-                new Permission("get", "order"));
+                new Permission("view", "order"));
         
         ArrayList<Order> allOrders = new ArrayList();
         allOrders.add(singletonOrder);
