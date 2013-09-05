@@ -30,7 +30,11 @@ public class SessionManager {
 
     
     /**
-     * Similar to isAuthorized but returns nothing and throws an AccessException on failure.
+     * Similar to isAuthorized but returns nothing and throws an
+     * AccessException on failure.
+     * 
+     * Mostly for using with remote RMI methods.
+     * 
      * @throws AccessException
      */
     public void isAuthorizedWithSideEffect(
