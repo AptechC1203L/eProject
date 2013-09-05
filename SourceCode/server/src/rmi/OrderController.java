@@ -74,7 +74,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
     }
 
     @Override
-    public List<Order> getAllOrder(String sessionId) throws RemoteException {
+    public List<Order> getAllOrders(String sessionId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

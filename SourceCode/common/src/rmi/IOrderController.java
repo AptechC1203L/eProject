@@ -20,7 +20,7 @@ public interface IOrderController extends Remote {
 
     Order getOrder(String sessionId, String orderId) throws RemoteException;
     
-    List<Order> getAllOrder(String sessionId) throws RemoteException;
+    List<Order> getAllOrders(String sessionId) throws RemoteException;
 
     boolean updateOrder(String sessionId, Order newOrder) throws RemoteException;
 
