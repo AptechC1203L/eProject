@@ -23,7 +23,7 @@ public class LoginDialog extends javax.swing.JDialog {
     /**
      * Creates new form LoginDialgo
      */
-    public LoginDialog(java.awt.Frame parent) throws NotBoundException, MalformedURLException, RemoteException {
+    public LoginDialog(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
     }
@@ -111,12 +111,9 @@ public class LoginDialog extends javax.swing.JDialog {
                     (IAuthenticator) Naming.lookup("rmi://localhost/authenticator");
             session = authenticator.login(username, password);
             this.setVisible(false);
-        } catch (RemoteException ex) {
-            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LoginDialog.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException | NotBoundException | MalformedURLException ex) {
+            // TODO Create a proper panic dialog
+            System.out.println("Cannot connect to server");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
