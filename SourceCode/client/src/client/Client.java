@@ -11,6 +11,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import rbac.Session;
 import rmi.IAuthenticator;
 import rmi.IOrderController;
@@ -50,35 +52,12 @@ public class Client {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
-                IOrderController orders;
-                IAuthenticator authenticator = null;
-
-                try {
-                    orders = (IOrderController) Naming.lookup("rmi://localhost:1099/orders");
-                    authenticator = (IAuthenticator) Naming.lookup("rmi://localhost:1099/authenticator");
-
-                    Session session = authenticator.login("chin", "admin");
-                    if (session == null) {
-                        System.out.println("Cannot login");
-                        System.exit(-1);
-                    }
-                    orders.createOrder(session.getSessionId(), new Order("chinorder", "chin", "kin"));
-
-                    orders.updateOrderStatus(session.getSessionId(), "chinorder", "CONFIRMED");
-
-                    Order order = orders.getOrder(session.getSessionId(), "chinorder");
-                    System.out.println(order);
-
-                } catch (RemoteException ex) {
-                    System.out.println(ex.detail.getMessage());
-                } catch (NotBoundException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                Session session = new LoginDialog(null).showDialog();
+                if (session != null) {
+                    new MainFrame().setVisible(true);
+                } else {
+                    System.exit(-1);
                 }
-
-                new NewJFrame().setVisible(true);
             }
         });
     }

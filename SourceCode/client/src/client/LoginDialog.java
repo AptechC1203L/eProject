@@ -19,6 +19,7 @@ import rmi.IAuthenticator;
  */
 public class LoginDialog extends javax.swing.JDialog {
     private Session session;
+    private IAuthenticator authenticator;
 
     /**
      * Creates new form LoginDialgo
@@ -26,6 +27,7 @@ public class LoginDialog extends javax.swing.JDialog {
     public LoginDialog(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
+        this.failLabel.setVisible(false);
     }
 
     /**
@@ -42,9 +44,11 @@ public class LoginDialog extends javax.swing.JDialog {
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
+        failLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("Username:");
 
@@ -57,28 +61,41 @@ public class LoginDialog extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setText("Exit");
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
+        failLabel.setForeground(new java.awt.Color(255, 51, 0));
+        failLabel.setText("Login failed!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(failLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(exitButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(usernameField))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(14, 14, 14)
-                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jButton2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(loginButton))))
+                        .addComponent(loginButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(20, 20, 20)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passwordField, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(usernameField))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -94,9 +111,10 @@ public class LoginDialog extends javax.swing.JDialog {
                     .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(loginButton)
-                    .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(exitButton)
+                    .addComponent(failLabel))
+                .addContainerGap())
         );
 
         pack();
@@ -107,15 +125,25 @@ public class LoginDialog extends javax.swing.JDialog {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
             
-            IAuthenticator authenticator = 
+            if (authenticator == null)
+                authenticator = 
                     (IAuthenticator) Naming.lookup("rmi://localhost/authenticator");
-            session = authenticator.login(username, password);
-            this.setVisible(false);
+            session = this.authenticator.login(username, password);
+            if (session != null) {
+                this.setVisible(false);
+            } else {
+                this.failLabel.setVisible(true);
+            }
         } catch (RemoteException | NotBoundException | MalformedURLException ex) {
             // TODO Create a proper panic dialog
             System.out.println("Cannot connect to server");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        session = null;
+        setVisible(false);
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     public Session showDialog() {
         setVisible(true);
@@ -123,7 +151,8 @@ public class LoginDialog extends javax.swing.JDialog {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JLabel failLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginButton;
