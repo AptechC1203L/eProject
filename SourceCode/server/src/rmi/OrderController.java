@@ -8,6 +8,7 @@ import entity.Order;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import rbac.Permission;
 import rbac.Session;
@@ -75,6 +76,8 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
 
     @Override
     public List<Order> getAllOrders(String sessionId) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Order> allOrders = new ArrayList();
+        allOrders.add(singletonOrder);
+        return allOrders;
     }
 }
