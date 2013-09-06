@@ -29,6 +29,7 @@ public class LoginDialog extends javax.swing.JDialog {
     public LoginDialog(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
