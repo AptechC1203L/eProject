@@ -10,5 +10,6 @@ import lombok.Data;
  */
 @Data
 public class Role implements Serializable {
+    private final String name;
     private List<Permission> permissions;
 }

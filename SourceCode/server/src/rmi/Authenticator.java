@@ -30,7 +30,7 @@ public class Authenticator extends UnicastRemoteObject implements IAuthenticator
     public Session login(String username, String password) throws RemoteException {
         User chin = new User("chin", "Chin");
         
-        Role admin = new Role();
+        Role admin = new Role("admin");
         ArrayList<Permission> permission = new ArrayList<>();
         permission.add(new Permission("create", "order"));
         permission.add(new Permission("view", "order"));
