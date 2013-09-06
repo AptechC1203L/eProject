@@ -18,4 +18,11 @@ public class Utils {
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
     }
+    
+    public static void showInfoDialog(Component parent, String message) {
+        JOptionPane.showMessageDialog(parent,
+                    message,
+                    "Information",
+                    JOptionPane.INFORMATION_MESSAGE);
+    }
 }
