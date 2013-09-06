@@ -38,9 +38,9 @@ public class CreatOrderPanel extends javax.swing.JPanel {
         createOrderButton = new javax.swing.JButton();
         ResetButton = new javax.swing.JButton();
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+3f));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Creat New Order");
+        jLabel1.setText("Create New Order");
 
         FromOrder.setText("From:");
 
@@ -56,7 +56,7 @@ public class CreatOrderPanel extends javax.swing.JPanel {
             }
         });
 
-        createOrderButton.setText("Creat Order");
+        createOrderButton.setText("Create Order");
 
         ResetButton.setText("Reset");
 
