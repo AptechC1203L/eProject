@@ -35,7 +35,7 @@ public class CreatOrderPanel extends javax.swing.JPanel {
         ToOrder1 = new javax.swing.JTextField();
         WeightOrder1 = new javax.swing.JTextField();
         ProfileOrder1 = new javax.swing.JTextField();
-        CreatOrderButton = new javax.swing.JButton();
+        createOrderButton = new javax.swing.JButton();
         ResetButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -56,7 +56,7 @@ public class CreatOrderPanel extends javax.swing.JPanel {
             }
         });
 
-        CreatOrderButton.setText("Creat Order");
+        createOrderButton.setText("Creat Order");
 
         ResetButton.setText("Reset");
 
@@ -90,7 +90,7 @@ public class CreatOrderPanel extends javax.swing.JPanel {
                                 .addComponent(ProfileOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
-                                .addComponent(CreatOrderButton)
+                                .addComponent(createOrderButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(ResetButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(119, Short.MAX_VALUE))
@@ -117,7 +117,7 @@ public class CreatOrderPanel extends javax.swing.JPanel {
                     .addComponent(ProfileOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(CreatOrderButton)
+                    .addComponent(createOrderButton)
                     .addComponent(ResetButton))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
@@ -128,7 +128,6 @@ public class CreatOrderPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_ProfileOrder1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CreatOrderButton;
     private javax.swing.JLabel FromOrder;
     private javax.swing.JTextField FromOrder1;
     private javax.swing.JLabel ProfileOrder;
@@ -138,6 +137,7 @@ public class CreatOrderPanel extends javax.swing.JPanel {
     private javax.swing.JTextField ToOrder1;
     private javax.swing.JLabel WeightOrder;
     private javax.swing.JTextField WeightOrder1;
+    private javax.swing.JButton createOrderButton;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
