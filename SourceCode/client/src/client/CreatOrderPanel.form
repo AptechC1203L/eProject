@@ -24,37 +24,36 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="ToOrder" min="-2" pref="57" max="-2" attributes="0"/>
+                              <Component id="toOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="ToOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="toOrder1" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="FromOrder" min="-2" pref="57" max="-2" attributes="0"/>
+                              <Component id="fromOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="FromOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="fromOrder1" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="WeightOrder" min="-2" pref="57" max="-2" attributes="0"/>
+                              <Component id="weightOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="WeightOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="weightOrder1" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="ProfileOrder" min="-2" pref="57" max="-2" attributes="0"/>
+                              <Component id="profileOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="ProfileOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="profileOrder1" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                              <Component id="cancelButton" min="-2" pref="107" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="createOrderButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="ResetButton" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="119" max="32767" attributes="0"/>
+              <EmptySpace pref="117" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,28 +63,28 @@
               <Component id="jLabel1" min="-2" pref="42" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="FromOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="FromOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="fromOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="fromOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ToOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="ToOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="toOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="toOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="WeightOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="WeightOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="weightOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="weightOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="ProfileOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="ProfileOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="profileOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="profileOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="createOrderButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ResetButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
@@ -104,35 +103,35 @@
         <Property name="text" type="java.lang.String" value="Create New Order"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="FromOrder">
+    <Component class="javax.swing.JLabel" name="fromOrder">
       <Properties>
         <Property name="text" type="java.lang.String" value="From:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="ToOrder">
+    <Component class="javax.swing.JLabel" name="toOrder">
       <Properties>
         <Property name="text" type="java.lang.String" value="To:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="WeightOrder">
+    <Component class="javax.swing.JLabel" name="weightOrder">
       <Properties>
         <Property name="text" type="java.lang.String" value="Weight:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="ProfileOrder">
+    <Component class="javax.swing.JLabel" name="profileOrder">
       <Properties>
         <Property name="text" type="java.lang.String" value="Profile:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="FromOrder1">
+    <Component class="javax.swing.JTextField" name="fromOrder1">
     </Component>
-    <Component class="javax.swing.JTextField" name="ToOrder1">
+    <Component class="javax.swing.JTextField" name="toOrder1">
     </Component>
-    <Component class="javax.swing.JTextField" name="WeightOrder1">
+    <Component class="javax.swing.JTextField" name="weightOrder1">
     </Component>
-    <Component class="javax.swing.JTextField" name="ProfileOrder1">
+    <Component class="javax.swing.JTextField" name="profileOrder1">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProfileOrder1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="profileOrder1ActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="createOrderButton">
@@ -140,9 +139,9 @@
         <Property name="text" type="java.lang.String" value="Create Order"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="ResetButton">
+    <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Reset"/>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
     </Component>
   </SubComponents>
