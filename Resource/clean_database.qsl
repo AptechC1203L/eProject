@@ -1,0 +1,89 @@
+CREATE TABLE [Users] (
+  [username] VARCHAR NOT NULL ,
+  [name] VARCHAR ,
+  [honorific] VARCHAR ,
+  [about_me] MEDIUMTEXT ,
+  [phone] VARCHAR , 
+ PRIMARY KEY ([username])
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [Roles] (
+  [name] VARCHAR NOT NULL , 
+ PRIMARY KEY ([name])
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [RolePermissionMappings] (
+  [role_name] VARCHAR IDENTITY (1, 1) ,
+  [permission_id] INT 
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [UserRoleMappings] (
+  [username] VARCHAR NOT NULL ,
+  [role] VARCHAR NOT NULL 
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [Orders] (
+  [id] INT IDENTITY (1, 1) ,
+  [from] VARCHAR ,
+  [to] VARCHAR ,
+  [creator_id] VARCHAR ,
+  [deliverer_id] VARCHAR ,
+  [status] ENUM ,
+  [weight] INT NOT NULL ,
+  [package_description] MEDIUMTEXT ,
+  [created_timestamp] TIMESTAMP ,
+  [due_date] DATETIME , 
+ PRIMARY KEY ([id])
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [Permissions] (
+  [id] INT IDENTITY (1, 1) ,
+  [action] VARCHAR NOT NULL ,
+  [target] VARCHAR NOT NULL , 
+ PRIMARY KEY ([id])
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [Log] (
+  [timestamp] TIMESTAMP NOT NULL ,
+  [content] MEDIUMTEXT , 
+ PRIMARY KEY ([timestamp])
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [WorkJournal] (
+  [date] DATE NOT NULL ,
+  [username] VARCHAR NOT NULL ,
+  [status] ENUM ,
+  [reason] MEDIUMTEXT 
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [Prices] (
+  [established_date] DATE NOT NULL ,
+  [price_per_kilogram] BIGINT NOT NULL , 
+ PRIMARY KEY ([established_date])
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [Users] ADD FOREIGN KEY (username) REFERENCES [UserRoleMappings] ([username]);
+				
+ALTER TABLE [RolePermissionMappings] ADD FOREIGN KEY (role_name) REFERENCES [Roles] ([name]);
+				
+ALTER TABLE [RolePermissionMappings] ADD FOREIGN KEY (permission_id) REFERENCES [Permissions] ([id]);
+				
+ALTER TABLE [UserRoleMappings] ADD FOREIGN KEY (role) REFERENCES [Roles] ([name]);
+				
+ALTER TABLE [Orders] ADD FOREIGN KEY (creator_id) REFERENCES [Users] ([username]);
+				
+ALTER TABLE [Orders] ADD FOREIGN KEY (deliverer_id) REFERENCES [Users] ([username]);
+				
+CREATE INDEX  ON [WorkJournal] ([date]);
+CREATE INDEX  ON [WorkJournal] ([username]);
+CREATE INDEX  ON [Prices] ([established_date]);
+ 
