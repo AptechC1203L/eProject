@@ -4,17 +4,29 @@
  */
 package client;
 
+import entity.Order;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import rbac.Session;
+import rmi.IOrderController;
+
 /**
  *
  * @author Louis DeRossi
  */
 public class MainPanel extends javax.swing.JPanel {
+    private final Session session;
 
     /**
      * Creates new form mani
      */
-    public MainPanel() {
+    public MainPanel(Session session) {
         initComponents();
+        this.session = session;
     }
 
     /**
@@ -51,6 +63,11 @@ public class MainPanel extends javax.swing.JPanel {
         searchBox = new javax.swing.JTextField();
 
         createOrderButton.setText("Create Order");
+        createOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createOrderButtonActionPerformed(evt);
+            }
+        });
 
         coderTable.setAutoCreateRowSorter(true);
         coderTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
@@ -132,7 +149,7 @@ public class MainPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(status2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                            .addComponent(status2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(to, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(weight, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(charge, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -223,6 +240,16 @@ public class MainPanel extends javax.swing.JPanel {
     private void orderCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderCreateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_orderCreateActionPerformed
+
+    private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
+        try {
+            IOrderController controller = 
+                (IOrderController) Naming.lookup("rmi://localhost/orders");
+            Order createdOrder = new CreateOrderDialog(null).showDialog(session, controller);
+        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_createOrderButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelOrderButton;

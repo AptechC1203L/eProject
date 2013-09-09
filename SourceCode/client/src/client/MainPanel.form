@@ -30,7 +30,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="status2" pref="80" max="32767" attributes="0"/>
+                          <Component id="status2" max="32767" attributes="0"/>
                           <Component id="to" alignment="0" max="32767" attributes="0"/>
                           <Component id="weight" alignment="0" max="32767" attributes="0"/>
                           <Component id="charge" alignment="0" max="32767" attributes="0"/>
@@ -131,6 +131,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Create Order"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createOrderButtonActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
