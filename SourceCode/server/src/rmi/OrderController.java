@@ -29,13 +29,17 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
     }
 
     @Override
-    public boolean createOrder(String sessionId,  Order order) throws RemoteException {
+    public Order createOrder(String sessionId,  Order order) throws RemoteException {
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
                 new Permission("create", "order"));
         
         singletonOrder = order;
-        return true;
+        return new Order("newID",
+                order.getSender(),
+                order.getReceiver(),
+                order.getWeight(),
+                order.getProfile());
     }
 
     @Override

@@ -16,7 +16,7 @@ import rbac.Session;
  */
 public interface IOrderController extends Remote {
 
-    boolean createOrder(String sessionId, Order order) throws RemoteException;
+    Order createOrder(String sessionId, Order order) throws RemoteException;
 
     Order getOrder(String sessionId, String orderId) throws RemoteException;
     
