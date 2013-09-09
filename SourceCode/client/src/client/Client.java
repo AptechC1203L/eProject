@@ -3,7 +3,15 @@
  * and open the template in the editor.
  */
 package client;
+import entity.Order;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import rbac.Session;
+import rmi.IOrderController;
 /**
  *
  * @author chin
@@ -42,7 +50,18 @@ public class Client {
             public void run() {
                 Session session = new LoginDialog(null).showDialog();
                 if (session != null) {
-                    new MainFrame().setVisible(true);
+                    try {
+                        MainFrame mainFrame = new MainFrame();
+                        mainFrame.setVisible(true);
+                        
+                        IOrderController controller = 
+                                (IOrderController) Naming.lookup("rmi://localhost/orders");
+                        Order createdOrder = new CreateOrderDialog(mainFrame).showDialog(session, controller);
+                        System.out.println(createdOrder);
+                        
+                    } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     System.exit(-1);
                 }
