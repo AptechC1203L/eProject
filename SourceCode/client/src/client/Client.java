@@ -50,18 +50,8 @@ public class Client {
             public void run() {
                 Session session = new LoginDialog(null).showDialog();
                 if (session != null) {
-                    try {
-                        MainFrame mainFrame = new MainFrame();
-                        mainFrame.setVisible(true);
-                        
-                        IOrderController controller = 
-                                (IOrderController) Naming.lookup("rmi://localhost/orders");
-                        Order createdOrder = new CreateOrderDialog(mainFrame).showDialog(session, controller);
-                        System.out.println(createdOrder);
-                        
-                    } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    MainFrame mainFrame = new MainFrame(session);
+                    mainFrame.setVisible(true);    
                 } else {
                     System.exit(-1);
                 }
