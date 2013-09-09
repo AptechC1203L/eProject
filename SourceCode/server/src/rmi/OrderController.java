@@ -21,7 +21,7 @@ import rbac.SessionManager;
 public class OrderController extends UnicastRemoteObject implements IOrderController {
     
     private SessionManager sessionManager;
-    static public Order singletonOrder = new Order("123", "chin", "kin");
+    static public Order singletonOrder = new Order("123", "chin", "kin", Double.parseDouble("20"), "abc");
     
     public OrderController(SessionManager sessionManager) throws RemoteException {
         super();

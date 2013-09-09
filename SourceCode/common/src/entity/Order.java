@@ -17,5 +17,7 @@ public class Order implements Serializable {
     final private String orderId;
     @NonNull private String sender;
     @NonNull private String receiver;
+    @NonNull private double weight;
+    @NonNull private String profile;
     private String status = "PENDING";
 }
