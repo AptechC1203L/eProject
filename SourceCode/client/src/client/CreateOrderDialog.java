@@ -17,6 +17,7 @@ import rmi.IOrderController;
  * @author chin
  */
 public class CreateOrderDialog extends javax.swing.JDialog {
+
     private Session session;
     private IOrderController orderController;
     private Order order;
@@ -157,23 +158,22 @@ public class CreateOrderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
-        if(txtFromOrder.getText().equals("") |
-                txtToOrder.getText().equals("") |
-                txtWeight.getText().equals("") ){
+        if (txtFromOrder.getText().equals("")
+                | txtToOrder.getText().equals("")
+                | txtWeight.getText().equals("")) {
             Utils.showErrorDialog(this, "Fields that have * are required!");
-        }else{
-            try{
+        } else {
+            try {
                 String sessionId = this.session.getSessionId();
                 String id = "";
                 String sender = txtFromOrder.getText();
                 String receiver = txtToOrder.getText();
                 double weight = Double.parseDouble(txtWeight.getText());
                 String profile = txtDescription.getText();
-                this.order = new Order(id,sender,receiver, weight, profile);
+                this.order = new Order(id, sender, receiver, weight, profile);
                 this.order = this.orderController.createOrder(sessionId, order);
-            } catch(RemoteException e) {
-
-            } catch(NumberFormatException ex){ 
+            } catch (RemoteException e) {
+            } catch (NumberFormatException ex) {
                 Utils.showErrorDialog(this, "Weight has to be a number");
             }
         }
@@ -193,7 +193,6 @@ public class CreateOrderDialog extends javax.swing.JDialog {
         this.setVisible(true);
         return this.order;
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton createOrderButton;
