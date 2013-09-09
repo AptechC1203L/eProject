@@ -157,17 +157,25 @@ public class CreateOrderDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
-        try{
-            String sessionId = this.session.getSessionId();
-            String id = "";
-            String sender = txtFromOrder.getText();
-            String receiver = txtToOrder.getText();
-            double weight = Double.parseDouble(txtWeight.getText());
-            String profile = txtDescription.getText();
-            this.order = new Order(id,sender,receiver, weight, profile);
-            this.order = this.orderController.createOrder(sessionId, order);
-        } catch(RemoteException e) {
-        
+        if(txtFromOrder.getText().equals("") |
+                txtToOrder.getText().equals("") |
+                txtWeight.getText().equals("") ){
+            Utils.showErrorDialog(this, "Fields that have * are required!");
+        }else{
+            try{
+                String sessionId = this.session.getSessionId();
+                String id = "";
+                String sender = txtFromOrder.getText();
+                String receiver = txtToOrder.getText();
+                double weight = Double.parseDouble(txtWeight.getText());
+                String profile = txtDescription.getText();
+                this.order = new Order(id,sender,receiver, weight, profile);
+                this.order = this.orderController.createOrder(sessionId, order);
+            } catch(RemoteException e) {
+
+            } catch(NumberFormatException ex){ 
+                Utils.showErrorDialog(this, "Weight has to be a number");
+            }
         }
     }//GEN-LAST:event_createOrderButtonActionPerformed
 
