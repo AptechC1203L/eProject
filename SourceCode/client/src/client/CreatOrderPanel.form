@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <Properties>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[200, 300]"/>
+    </Property>
+  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -28,22 +33,22 @@
                           <Group type="102" attributes="0">
                               <Component id="toOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="toOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="txtToOrder" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="fromOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="fromOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="txtFromOrder" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="weightOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="weightOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="txtWeight" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="profileOrder" min="-2" pref="57" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="profileOrder1" min="-2" pref="147" max="-2" attributes="0"/>
+                              <Component id="txtProfile" min="-2" pref="147" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="cancelButton" min="-2" pref="107" max="-2" attributes="0"/>
@@ -64,22 +69,22 @@
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="fromOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="fromOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="txtFromOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="toOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="toOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="txtToOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="weightOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="weightOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="txtWeight" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="profileOrder" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="profileOrder1" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
+                  <Component id="txtProfile" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -123,21 +128,24 @@
         <Property name="text" type="java.lang.String" value="Profile:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="fromOrder1">
+    <Component class="javax.swing.JTextField" name="txtFromOrder">
     </Component>
-    <Component class="javax.swing.JTextField" name="toOrder1">
+    <Component class="javax.swing.JTextField" name="txtToOrder">
     </Component>
-    <Component class="javax.swing.JTextField" name="weightOrder1">
+    <Component class="javax.swing.JTextField" name="txtWeight">
     </Component>
-    <Component class="javax.swing.JTextField" name="profileOrder1">
+    <Component class="javax.swing.JTextField" name="txtProfile">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="profileOrder1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtProfileActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="createOrderButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Create Order"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createOrderButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>

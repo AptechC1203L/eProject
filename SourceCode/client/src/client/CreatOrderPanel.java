@@ -4,15 +4,24 @@
  */
 package client;
 
+import entity.Order;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import rbac.Session;
+import rmi.IOrderController;
+
 /**
  *
  * @author Louis DeRossi
  */
 public class CreatOrderPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form CreatOrderPanel
-     */
+    private Session session;
+    private IOrderController ordercontroller;
     public CreatOrderPanel() {
         initComponents();
     }
@@ -31,12 +40,14 @@ public class CreatOrderPanel extends javax.swing.JPanel {
         toOrder = new javax.swing.JLabel();
         weightOrder = new javax.swing.JLabel();
         profileOrder = new javax.swing.JLabel();
-        fromOrder1 = new javax.swing.JTextField();
-        toOrder1 = new javax.swing.JTextField();
-        weightOrder1 = new javax.swing.JTextField();
-        profileOrder1 = new javax.swing.JTextField();
+        txtFromOrder = new javax.swing.JTextField();
+        txtToOrder = new javax.swing.JTextField();
+        txtWeight = new javax.swing.JTextField();
+        txtProfile = new javax.swing.JTextField();
         createOrderButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+
+        setMinimumSize(new java.awt.Dimension(200, 300));
 
         jLabel1.setFont(jLabel1.getFont().deriveFont(jLabel1.getFont().getSize()+3f));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -50,13 +61,18 @@ public class CreatOrderPanel extends javax.swing.JPanel {
 
         profileOrder.setText("Profile:");
 
-        profileOrder1.addActionListener(new java.awt.event.ActionListener() {
+        txtProfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileOrder1ActionPerformed(evt);
+                txtProfileActionPerformed(evt);
             }
         });
 
         createOrderButton.setText("Create Order");
+        createOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createOrderButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setText("Cancel");
 
@@ -75,19 +91,19 @@ public class CreatOrderPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(toOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(toOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtToOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(fromOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fromOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtFromOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(weightOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(weightOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(profileOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(profileOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -101,19 +117,19 @@ public class CreatOrderPanel extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fromOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fromOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFromOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(toOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(toOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtToOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(weightOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(weightOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtWeight, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(profileOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(profileOrder1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtProfile, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
@@ -122,21 +138,43 @@ public class CreatOrderPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void profileOrder1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileOrder1ActionPerformed
+    private void txtProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProfileActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_profileOrder1ActionPerformed
+    }//GEN-LAST:event_txtProfileActionPerformed
+    public boolean showCreateOrderDialog(Session session){
+        this.session = session;
+        this.setVisible(true);
+        return true;
+    }
+    private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
+        try{
+            String sessionId = this.session.getSessionId();
+            String id = "od123";
+            String sender = txtFromOrder.getText();
+            String receiver = txtToOrder.getText();
+            double weight = Double.parseDouble(txtWeight.getText());
+            String profile = txtProfile.getText();
+            Order order = new Order(id,sender,receiver, weight, profile);
+            if(ordercontroller == null){
+                ordercontroller = (IOrderController) Naming.lookup("rmi://localhost/order");
+                this.ordercontroller.createOrder(sessionId, order);
+            }
+        }catch(RemoteException | NotBoundException | MalformedURLException ex){
+        
+        }
+    }//GEN-LAST:event_createOrderButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton createOrderButton;
     private javax.swing.JLabel fromOrder;
-    private javax.swing.JTextField fromOrder1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel profileOrder;
-    private javax.swing.JTextField profileOrder1;
     private javax.swing.JLabel toOrder;
-    private javax.swing.JTextField toOrder1;
+    private javax.swing.JTextField txtFromOrder;
+    private javax.swing.JTextField txtProfile;
+    private javax.swing.JTextField txtToOrder;
+    private javax.swing.JTextField txtWeight;
     private javax.swing.JLabel weightOrder;
-    private javax.swing.JTextField weightOrder1;
     // End of variables declaration//GEN-END:variables
 }
