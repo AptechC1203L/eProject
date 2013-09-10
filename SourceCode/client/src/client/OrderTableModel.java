@@ -5,7 +5,9 @@
 package client;
 
 import entity.Order;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -18,8 +20,13 @@ public class OrderTableModel extends AbstractTableModel {
     
     public void add(Order order) {
         this.orderList.add(order);
-        int size = orderList.size();
+        int size = orderList.size() - 1;
+        System.out.println(size);
         fireTableRowsInserted(size, size);
+    }
+    
+    public Order get(int index) {
+        return orderList.get(index);
     }
     
     @Override
@@ -30,6 +37,12 @@ public class OrderTableModel extends AbstractTableModel {
     @Override
     public int getColumnCount() {
         return 2;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        List<String> columnNames = Arrays.asList("ID", "Status");
+        return columnNames.get(column);
     }
 
     @Override
