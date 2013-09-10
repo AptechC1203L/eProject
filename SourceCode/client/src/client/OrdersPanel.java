@@ -9,26 +9,14 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicListUI;
 import rbac.Permission;
 import rbac.Session;
 import rmi.IOrderController;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComponent;
-import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
-import javax.swing.event.ListDataListener;
 import lombok.Data;
 
 /**
@@ -48,17 +36,17 @@ public class OrdersPanel extends javax.swing.JPanel {
         this.session = session;
         this.orderController = orderController;
         this.tableModel = new OrderTableModel();
-        
+
         this.setupTable();
         this.setupPermissions();
     }
-    
+
     private void setupTable() throws RemoteException {
         List<Order> allOrders = orderController.getAllOrders(session.getSessionId());
         for (Order order : allOrders) {
             this.tableModel.add(order);
         }
-        
+
         this.orderTable.setModel(tableModel);
         this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -88,7 +76,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                     statuses.addElement("REJECTED");
                     status.setModel(statuses);
                     status.setSelectedItem(selectedOrder.getStatus());
-                    
+
                     status.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -110,14 +98,14 @@ public class OrdersPanel extends javax.swing.JPanel {
             
         });
     }
-    
+
     private void setupPermissions() {
         @Data
         class ComponentPermissionTuple {
             final Component component;
             final Permission permission;
         }
-        
+
         // rp = required permissions ; to ease typing and reading
         List<ComponentPermissionTuple> rp = new LinkedList<>();
         rp.add(new ComponentPermissionTuple(this.createOrderButton, new Permission("create", "order")));
@@ -131,7 +119,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         rp.add(new ComponentPermissionTuple(this.orderDueDate, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.status, new Permission("update", "order.status")));
         List<Permission> allPermissions = session.getAllPermissions();
-        
+
         for (ComponentPermissionTuple pair : rp) {
             if (!allPermissions.contains(pair.permission)) {
                 pair.component.setEnabled(false);

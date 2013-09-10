@@ -10,7 +10,6 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
-import javax.swing.JOptionPane;
 import rbac.Permission;
 import rbac.Role;
 import rbac.Session;
@@ -128,20 +127,20 @@ public class LoginDialog extends javax.swing.JDialog {
         try {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
-            
+
             if (authenticator == null)
-                authenticator = 
+                authenticator =
                     (IAuthenticator) Naming.lookup("rmi://localhost/authenticator");
             session = this.authenticator.login(username, password);
             if (session != null) {
                 List<Role> roles = session.getRoles();
                 StringBuilder roleString = new StringBuilder();
                 StringBuilder permString = new StringBuilder();
-                
+
                 for (Role role : roles) {
                     roleString.append(role.getName());
                     roleString.append(",");
-                    
+
                     for (Permission p : role.getPermissions()) {
                         permString.append(p.getAction());
                         permString.append(" ");
@@ -149,7 +148,7 @@ public class LoginDialog extends javax.swing.JDialog {
                         permString.append(", ");
                     }
                 }
-                
+
                 Utils.showInfoDialog(this,
                         String.format("You are %s\nand can %s.",
                             roleString.toString(),
@@ -185,7 +184,7 @@ public class LoginDialog extends javax.swing.JDialog {
         setVisible(true);
         return session;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitButton;
     private javax.swing.JLabel jLabel1;

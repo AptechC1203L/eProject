@@ -5,9 +5,6 @@
 package client;
 
 import entity.Order;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import rbac.Session;
 import rmi.IOrderController;

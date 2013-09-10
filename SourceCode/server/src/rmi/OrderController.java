@@ -17,10 +17,10 @@ import rbac.SessionManager;
  * @author chin
  */
 public class OrderController extends UnicastRemoteObject implements IOrderController {
-    
+
     private SessionManager sessionManager;
     LinkedList<Order> orders = new LinkedList<>();
-    
+
     public OrderController(SessionManager sessionManager) throws RemoteException {
         super();
         this.sessionManager = sessionManager;
@@ -59,7 +59,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
                 new Permission("update", "order"));
-        
+
         for (Order order : orders) {
             if (order.getOrderId().equals(newOrder.getOrderId())) {
                 order = newOrder;
@@ -79,7 +79,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
                 new Permission("update", "order.status"));
- 
+
         for (Order order : orders) {
             if (order.getOrderId().equals(orderId)) {
                 order.setStatus(newStatus);
