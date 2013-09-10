@@ -7,6 +7,9 @@ package client;
 import entity.Order;
 import java.rmi.RemoteException;
 import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicListUI;
 import rbac.Session;
 import rmi.IOrderController;
 
@@ -14,7 +17,7 @@ import rmi.IOrderController;
  *
  * @author Louis DeRossi
  */
-public class MainPanel extends javax.swing.JPanel {
+public class OrdersPanel extends javax.swing.JPanel {
     private final Session session;
     private OrderTableModel tableModel;
     IOrderController orderController;
@@ -22,7 +25,7 @@ public class MainPanel extends javax.swing.JPanel {
     /**
      * Creates new form mani
      */
-    public MainPanel(Session session, IOrderController orderController) throws RemoteException {
+    public OrdersPanel(Session session, IOrderController orderController) throws RemoteException {
         initComponents();
         this.session = session;
         this.orderController = orderController;
@@ -32,6 +35,20 @@ public class MainPanel extends javax.swing.JPanel {
             this.tableModel.add(order);
         }
         this.orderTable.setModel(tableModel);
+        this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (! e.getValueIsAdjusting()) {
+                    // Show the first selected order in the side bar
+                    int[] selection = orderTable.getSelectedRows();
+                    int index = orderTable.convertColumnIndexToModel(selection[0]);
+                    Order selectedOrder = tableModel.get(index);
+                    orderID.setText(selectedOrder.getOrderId());
+                    orderFrom.setText(selectedOrder.getSender());
+                    orderTo.setText(selectedOrder.getReceiver());
+                }
+            }
+        });
     }
 
     /**
@@ -111,7 +128,7 @@ public class MainPanel extends javax.swing.JPanel {
 
         charge.setText("Charge:");
 
-        dueDate.setText(" Due date:");
+        dueDate.setText("Due date:");
 
         createBy.setText("Create By:");
 
@@ -248,7 +265,10 @@ public class MainPanel extends javax.swing.JPanel {
 
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
         Order createdOrder = new CreateOrderDialog(null)
-                .showDialog(session, orderController);        
+                .showDialog(session, orderController);
+        if (createdOrder != null) {
+            this.tableModel.add(createdOrder);
+        }
     }//GEN-LAST:event_createOrderButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
