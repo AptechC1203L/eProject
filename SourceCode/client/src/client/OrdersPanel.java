@@ -61,6 +61,10 @@ public class OrdersPanel extends javax.swing.JPanel {
                     orderID.setText(selectedOrder.getOrderId());
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
+                    orderCharge.setText(Double.toString(selectedOrder.getWeight() * 0.5));
+                    orderWeight.setText(Double.toString(selectedOrder.getWeight()));
+                    createdByField.setText("chin");
+                    deliveredByField.setText("chin");
 
                     if(!selectedOrder.getStatus().equals("PENDING")){
                         orderFrom.setEnabled(false);
@@ -116,8 +120,8 @@ public class OrdersPanel extends javax.swing.JPanel {
         rp.add(new ComponentPermissionTuple(this.orderCharge, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.orderTo, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.orderWeight, new Permission("update", "order")));
-        rp.add(new ComponentPermissionTuple(this.orderDelivered, new Permission("update", "order")));
-        rp.add(new ComponentPermissionTuple(this.orderCreate, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.deliveredByField, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.createdByField, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.orderDueDate, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.status, new Permission("update", "order.status")));
         List<Permission> allPermissions = session.getAllPermissions();
@@ -164,8 +168,8 @@ public class OrdersPanel extends javax.swing.JPanel {
         weight = new javax.swing.JLabel();
         orderWeight = new javax.swing.JTextField();
         dueDate = new javax.swing.JLabel();
-        orderDelivered = new javax.swing.JTextField();
-        orderCreate = new javax.swing.JTextField();
+        deliveredByField = new javax.swing.JTextField();
+        createdByField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -330,7 +334,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         infoPanel.add(createBy, gridBagConstraints);
 
-        orderCharge.setEditable(false);
+        orderCharge.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
@@ -364,10 +368,10 @@ public class OrdersPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         infoPanel.add(dueDate, gridBagConstraints);
 
-        orderDelivered.setEditable(false);
-        orderDelivered.addActionListener(new java.awt.event.ActionListener() {
+        deliveredByField.setEnabled(false);
+        deliveredByField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orderDeliveredActionPerformed(evt);
+                deliveredByFieldActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -378,12 +382,12 @@ public class OrdersPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        infoPanel.add(orderDelivered, gridBagConstraints);
+        infoPanel.add(deliveredByField, gridBagConstraints);
 
-        orderCreate.setEditable(false);
-        orderCreate.addActionListener(new java.awt.event.ActionListener() {
+        createdByField.setEnabled(false);
+        createdByField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orderCreateActionPerformed(evt);
+                createdByFieldActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -394,7 +398,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 10);
-        infoPanel.add(orderCreate, gridBagConstraints);
+        infoPanel.add(createdByField, gridBagConstraints);
 
         jLabel1.setText("Description:");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -446,7 +450,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         detailsPanel.add(infoPanel);
 
         buttonsPane.setMaximumSize(new java.awt.Dimension(32767, 35));
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 5);
+        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 10, 10);
         flowLayout1.setAlignOnBaseline(true);
         buttonsPane.setLayout(flowLayout1);
 
@@ -485,17 +489,17 @@ public class OrdersPanel extends javax.swing.JPanel {
             "");
     }//GEN-LAST:event_saveButtonActionPerformed
 
-    private void orderDeliveredActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderDeliveredActionPerformed
+    private void deliveredByFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveredByFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_orderDeliveredActionPerformed
+    }//GEN-LAST:event_deliveredByFieldActionPerformed
 
     private void statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_statusActionPerformed
 
-    private void orderCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderCreateActionPerformed
+    private void createdByFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createdByFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_orderCreateActionPerformed
+    }//GEN-LAST:event_createdByFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonsPane;
@@ -503,7 +507,9 @@ public class OrdersPanel extends javax.swing.JPanel {
     private javax.swing.JLabel charge;
     private javax.swing.JLabel createBy;
     private javax.swing.JButton createOrderButton;
+    private javax.swing.JTextField createdByField;
     private javax.swing.JLabel deliveredBy;
+    private javax.swing.JTextField deliveredByField;
     private javax.swing.JPanel detailsPanel;
     private javax.swing.JLabel dueDate;
     private javax.swing.Box.Filler filler1;
@@ -518,8 +524,6 @@ public class OrdersPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField orderCharge;
-    private javax.swing.JTextField orderCreate;
-    private javax.swing.JTextField orderDelivered;
     private javax.swing.JSlider orderDueDate;
     private javax.swing.JTextField orderFrom;
     private javax.swing.JLabel orderID;
