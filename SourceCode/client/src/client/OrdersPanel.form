@@ -19,8 +19,8 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="createOrderButton" min="-2" pref="116" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="createOrderButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="searchBox" min="-2" pref="137" max="-2" attributes="0"/>
                   </Group>
@@ -37,28 +37,28 @@
                           <Component id="dueDate" alignment="0" max="32767" attributes="0"/>
                           <Component id="createBy" alignment="0" max="32767" attributes="0"/>
                           <Component id="deliveredBy" alignment="0" max="32767" attributes="0"/>
-                          <Component id="from" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="orderID" alignment="0" max="32767" attributes="0"/>
+                          <Component id="from" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="status" max="32767" attributes="0"/>
                           <Component id="oderID" max="32767" attributes="0"/>
                           <Component id="orderFrom" max="32767" attributes="0"/>
-                          <Component id="orderTo" alignment="1" pref="118" max="32767" attributes="0"/>
-                          <Component id="orderWeight" alignment="0" pref="118" max="32767" attributes="0"/>
-                          <Component id="orderCharge" alignment="0" pref="118" max="32767" attributes="0"/>
-                          <Component id="orderDueDate" alignment="0" pref="118" max="32767" attributes="0"/>
-                          <Component id="orderCreate" alignment="0" pref="118" max="32767" attributes="0"/>
-                          <Component id="orderDelivered" alignment="0" pref="118" max="32767" attributes="0"/>
+                          <Component id="orderTo" alignment="1" pref="275" max="32767" attributes="0"/>
+                          <Component id="orderWeight" alignment="0" pref="275" max="32767" attributes="0"/>
+                          <Component id="orderCharge" alignment="0" pref="275" max="32767" attributes="0"/>
+                          <Component id="orderDueDate" alignment="0" pref="275" max="32767" attributes="0"/>
+                          <Component id="orderCreate" alignment="0" pref="275" max="32767" attributes="0"/>
+                          <Component id="orderDelivered" alignment="0" pref="275" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="cancelOrderButton" min="-2" pref="112" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="cancelOrderButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -72,7 +72,6 @@
               </Group>
               <EmptySpace type="separate" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="orderID" max="32767" attributes="0"/>
@@ -118,10 +117,12 @@
                           <Component id="deliveredBy" min="-2" pref="26" max="-2" attributes="0"/>
                           <Component id="orderDelivered" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Component id="cancelOrderButton" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jScrollPane1" min="-2" pref="400" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -229,7 +230,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="dueDate">
       <Properties>
-        <Property name="text" type="java.lang.String" value=" Due date:"/>
+        <Property name="text" type="java.lang.String" value="Due date:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="createBy">
