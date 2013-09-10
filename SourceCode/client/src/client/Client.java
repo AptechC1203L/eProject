@@ -50,8 +50,14 @@ public class Client {
             public void run() {
                 Session session = new LoginDialog(null).showDialog();
                 if (session != null) {
-                    MainFrame mainFrame = new MainFrame(session);
-                    mainFrame.setVisible(true);    
+                    MainFrame mainFrame = null;    
+
+                    try {
+                        mainFrame = new MainFrame(session);
+                        mainFrame.setVisible(true);
+                    } catch (NotBoundException | MalformedURLException | RemoteException ex) {
+                        Utils.showErrorDialog(mainFrame, "Communication Error!");
+                    }
                 } else {
                     System.exit(-1);
                 }

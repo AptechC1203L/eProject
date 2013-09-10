@@ -5,12 +5,8 @@
 package client;
 
 import entity.Order;
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import rbac.Session;
 import rmi.IOrderController;
 
@@ -20,13 +16,22 @@ import rmi.IOrderController;
  */
 public class MainPanel extends javax.swing.JPanel {
     private final Session session;
+    private OrderTableModel tableModel;
+    IOrderController orderController;
 
     /**
      * Creates new form mani
      */
-    public MainPanel(Session session) {
+    public MainPanel(Session session, IOrderController orderController) throws RemoteException {
         initComponents();
         this.session = session;
+        this.orderController = orderController;
+        this.tableModel = new OrderTableModel();
+        List<Order> allOrders = orderController.getAllOrders(session.getSessionId());
+        for (Order order : allOrders) {
+            this.tableModel.add(order);
+        }
+        this.orderTable.setModel(tableModel);
     }
 
     /**
@@ -40,7 +45,7 @@ public class MainPanel extends javax.swing.JPanel {
 
         createOrderButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        coderTable = new javax.swing.JTable();
+        orderTable = new javax.swing.JTable();
         status = new javax.swing.JComboBox();
         orderID = new javax.swing.JLabel();
         oderID = new javax.swing.JTextField();
@@ -242,13 +247,8 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_orderCreateActionPerformed
 
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
-        try {
-            IOrderController controller = 
-                (IOrderController) Naming.lookup("rmi://localhost/orders");
-            Order createdOrder = new CreateOrderDialog(null).showDialog(session, controller);
-        } catch (NotBoundException | MalformedURLException | RemoteException ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Order createdOrder = new CreateOrderDialog(null)
+                .showDialog(session, orderController);        
     }//GEN-LAST:event_createOrderButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

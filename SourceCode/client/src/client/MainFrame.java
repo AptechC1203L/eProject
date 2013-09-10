@@ -4,7 +4,12 @@
  */
 package client;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import rbac.Session;
+import rmi.IOrderController;
 
 /**
  *
@@ -16,11 +21,13 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame(Session session) {
+    public MainFrame(Session session) throws NotBoundException, MalformedURLException, RemoteException {
         initComponents();
         this.setLocationRelativeTo(null);
         this.session = session;
-        this.tabs.add(new MainPanel(session));
+        IOrderController controller = 
+                (IOrderController) Naming.lookup("rmi://localhost/orders");
+        this.tabs.add(new MainPanel(session, controller));
     }
 
     /**
