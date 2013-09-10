@@ -5,13 +5,11 @@
 package rmi;
 
 import entity.Order;
-import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import rbac.Permission;
-import rbac.Session;
 import rbac.SessionManager;
 
 /**
@@ -21,7 +19,7 @@ import rbac.SessionManager;
 public class OrderController extends UnicastRemoteObject implements IOrderController {
     
     private SessionManager sessionManager;
-    static public Order singletonOrder = new Order("123", "chin", "kin", Double.parseDouble("20"), "abc");
+    LinkedList<Order> orders = new LinkedList<>();
     
     public OrderController(SessionManager sessionManager) throws RemoteException {
         super();
@@ -33,13 +31,14 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
                 new Permission("create", "order"));
-        
-        singletonOrder = order;
-        return new Order("newID",
-                order.getSender(),
-                order.getReceiver(),
-                order.getWeight(),
-                order.getProfile());
+        int size = this.orders.size();
+        Order processedOrder = new Order("ORDER" + Integer.toString(size),
+                               order.getSender(),
+                               order.getReceiver(),
+                               order.getWeight(),
+                               order.getProfile());
+        this.orders.add(processedOrder);
+        return processedOrder;
     }
 
     @Override
@@ -47,7 +46,12 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
                 new Permission("view", "order"));
-        return singletonOrder;
+        for (Order order : orders) {
+            if (order.getOrderId().equals(orderId)) {
+                return order;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -56,8 +60,13 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
                 sessionId,
                 new Permission("update", "order"));
         
-        singletonOrder = newOrder;
-        return true;
+        for (Order order : orders) {
+            if (order.getOrderId().equals(newOrder.getOrderId())) {
+                order = newOrder;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -71,8 +80,13 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
                 sessionId,
                 new Permission("update", "order.status"));
  
-        singletonOrder.setStatus(newStatus);
-        return true;
+        for (Order order : orders) {
+            if (order.getOrderId().equals(orderId)) {
+                order.setStatus(newStatus);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -80,9 +94,6 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         sessionManager.isAuthorizedWithSideEffect(
                 sessionId,
                 new Permission("view", "order"));
-        
-        ArrayList<Order> allOrders = new ArrayList();
-        allOrders.add(singletonOrder);
-        return allOrders;
+        return orders;
     }
 }
