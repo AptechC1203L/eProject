@@ -73,7 +73,15 @@ public class OrdersPanel extends javax.swing.JPanel {
         // rp = required permissions ; to ease typing and reading
         List<ComponentPermissionTuple> rp = new LinkedList<>();
         rp.add(new ComponentPermissionTuple(this.createOrderButton, new Permission("create", "order")));
-        
+        rp.add(new ComponentPermissionTuple(this.cancelOrderButton, new Permission("remove", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderFrom, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderCharge, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderTo, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderWeight, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderDelivered, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderCreate, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.orderDueDate, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.status, new Permission("update", "order.status")));
         List<Permission> allPermissions = session.getAllPermissions();
         
         for (ComponentPermissionTuple pair : rp) {
