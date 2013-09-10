@@ -4,6 +4,7 @@
  */
 package client;
 
+import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -54,6 +55,18 @@ public class LoginDialog extends javax.swing.JDialog {
         jLabel1.setText("Username:");
 
         jLabel2.setText("Password:");
+
+        usernameField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usernameFieldKeyPressed(evt);
+            }
+        });
+
+        passwordField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordFieldKeyPressed(evt);
+            }
+        });
 
         loginButton.setText("Login");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +168,18 @@ public class LoginDialog extends javax.swing.JDialog {
         session = null;
         setVisible(false);
     }//GEN-LAST:event_exitButtonActionPerformed
+
+    private void usernameFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            passwordField.requestFocus();
+        }
+    }//GEN-LAST:event_usernameFieldKeyPressed
+
+    private void passwordFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            loginButtonActionPerformed(null);
+        }
+    }//GEN-LAST:event_passwordFieldKeyPressed
 
     public Session showDialog() {
         setVisible(true);
