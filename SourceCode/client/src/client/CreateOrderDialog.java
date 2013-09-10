@@ -172,6 +172,7 @@ public class CreateOrderDialog extends javax.swing.JDialog {
                 String profile = txtDescription.getText();
                 this.order = new Order(id, sender, receiver, weight, profile);
                 this.order = this.orderController.createOrder(sessionId, order);
+                this.setVisible(false);
             } catch (RemoteException e) {
             } catch (NumberFormatException ex) {
                 Utils.showErrorDialog(this, "Weight has to be a number");
@@ -184,6 +185,7 @@ public class CreateOrderDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_txtFromOrderActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.order = null;
         this.setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
