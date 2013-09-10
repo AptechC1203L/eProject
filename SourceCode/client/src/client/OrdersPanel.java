@@ -56,8 +56,16 @@ public class OrdersPanel extends javax.swing.JPanel {
                     orderID.setText(selectedOrder.getOrderId());
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
+                    if(!selectedOrder.getStatus().equals("PENDING")){
+                        orderFrom.setEnabled(false);
+                        orderTo.setEnabled(false);
+                        orderWeight.setEnabled(false);
+                        orderCharge.setEnabled(false);
+                        cancelOrderButton.setEnabled(false);
+                    }
                 }
             }
+            
         });
         
         this.initPermissions();
@@ -88,6 +96,7 @@ public class OrdersPanel extends javax.swing.JPanel {
             if (!allPermissions.contains(pair.permission)) {
                 pair.component.setEnabled(false);
             }
+            
         }
     }
 
