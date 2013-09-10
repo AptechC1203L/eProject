@@ -28,23 +28,56 @@ public class Authenticator extends UnicastRemoteObject implements IAuthenticator
 
     @Override
     public Session login(String username, String password) throws RemoteException {
-        User chin = new User("chin", "Chin");
         
         Role admin = new Role("admin");
-        ArrayList<Permission> permission = new ArrayList<>();
-        permission.add(new Permission("create", "order"));
-        permission.add(new Permission("view", "order"));
-        permission.add(new Permission("update", "order"));
-        permission.add(new Permission("remove", "order"));
-        permission.add(new Permission("update", "order.status"));
-        admin.setPermissions(permission);
+        ArrayList<Permission> admPerms = new ArrayList<>();
+        admPerms.add(new Permission("create", "order"));
+        admPerms.add(new Permission("view", "order"));
+        admPerms.add(new Permission("update", "order"));
+        admPerms.add(new Permission("remove", "order"));
+        admPerms.add(new Permission("update", "order.status"));
+        admin.setPermissions(admPerms);
         
+        Role receptionist = new Role("receptionist");
+        ArrayList<Permission> recPerms = new ArrayList<>();
+        recPerms.add(new Permission("create", "order"));
+        recPerms.add(new Permission("view", "order"));
+        recPerms.add(new Permission("update", "order"));
+        recPerms.add(new Permission("remove", "order"));
+        receptionist.setPermissions(recPerms);
+        
+        Role deliverer = new Role("deliverer");
+        ArrayList<Permission> delPerms = new ArrayList<>();
+        delPerms.add(new Permission("view", "order"));
+        delPerms.add(new Permission("update", "order.status"));
+        deliverer.setPermissions(delPerms);
+        
+        
+        User adm = new User("admin", "Admin");
+        User rep = new User("rep", "Receptionist");
+        User del = new User("deliverer", "Deliverer");
+        
+        Session session = null;
         switch (username) {
-            case "chin":
-                Session session = new Session(
+            case "admin":
+                session = new Session(
                     generateSessionId(),
-                    chin,
-                    new ArrayList<>(Arrays.asList(admin)));
+                    adm,
+                    Arrays.asList(admin));
+                sessionManager.add(session);
+                return session;
+            case "receptionist":
+                session = new Session(
+                    generateSessionId(),
+                    adm,
+                    Arrays.asList(receptionist));
+                sessionManager.add(session);
+                return session;
+            case "deliverer":
+                session = new Session(
+                    generateSessionId(),
+                    adm,
+                    Arrays.asList(deliverer));
                 sessionManager.add(session);
                 return session;
             default:
