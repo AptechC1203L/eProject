@@ -75,7 +75,6 @@ public class MainPanel extends javax.swing.JPanel {
         });
 
         orderTable.setAutoCreateRowSorter(true);
-        orderTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
         orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
