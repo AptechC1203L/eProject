@@ -69,9 +69,9 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
-        coderTable.setAutoCreateRowSorter(true);
-        coderTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
-        coderTable.setModel(new javax.swing.table.DefaultTableModel(
+        orderTable.setAutoCreateRowSorter(true);
+        orderTable.setFont(new java.awt.Font("Times New Roman", 0, 14));
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,8 +85,8 @@ public class MainPanel extends javax.swing.JPanel {
                 "Order ID", "Create At", "Due In", "Status"
             }
         ));
-        coderTable.setAlignmentX(1.0F);
-        jScrollPane1.setViewportView(coderTable);
+        orderTable.setAlignmentX(1.0F);
+        jScrollPane1.setViewportView(orderTable);
 
         status.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         status.addActionListener(new java.awt.event.ActionListener() {
@@ -254,7 +254,6 @@ public class MainPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelOrderButton;
     private javax.swing.JLabel charge;
-    private javax.swing.JTable coderTable;
     private javax.swing.JLabel createBy;
     private javax.swing.JButton createOrderButton;
     private javax.swing.JLabel deliveredBy;
@@ -268,6 +267,7 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JTextField orderDueDate;
     private javax.swing.JTextField orderFrom;
     private javax.swing.JLabel orderID;
+    private javax.swing.JTable orderTable;
     private javax.swing.JTextField orderTo;
     private javax.swing.JTextField orderWeight;
     private javax.swing.JTextField searchBox;
