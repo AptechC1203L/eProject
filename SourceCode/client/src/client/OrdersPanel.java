@@ -6,6 +6,8 @@ package client;
 
 import entity.Order;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -20,7 +22,13 @@ import rbac.Session;
 import rmi.IOrderController;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComponent;
+import static javax.swing.JComponent.TOOL_TIP_TEXT_KEY;
+import javax.swing.event.ListDataListener;
 import lombok.Data;
 
 /**
@@ -28,9 +36,9 @@ import lombok.Data;
  * @author Louis DeRossi
  */
 public class OrdersPanel extends javax.swing.JPanel {
-    private final Session session;
+    final private Session session;
     private OrderTableModel tableModel;
-    IOrderController orderController;
+    final private IOrderController orderController;
 
     /**
      * Creates new form mani
@@ -40,10 +48,17 @@ public class OrdersPanel extends javax.swing.JPanel {
         this.session = session;
         this.orderController = orderController;
         this.tableModel = new OrderTableModel();
+        
+        this.setupTable();
+        this.setupPermissions();
+    }
+    
+    private void setupTable() throws RemoteException {
         List<Order> allOrders = orderController.getAllOrders(session.getSessionId());
         for (Order order : allOrders) {
             this.tableModel.add(order);
         }
+        
         this.orderTable.setModel(tableModel);
         this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -51,11 +66,12 @@ public class OrdersPanel extends javax.swing.JPanel {
                 if (! e.getValueIsAdjusting()) {
                     // Show the first selected order in the side bar
                     int[] selection = orderTable.getSelectedRows();
-                    int index = orderTable.convertColumnIndexToModel(selection[0]);
-                    Order selectedOrder = tableModel.get(index);
+                    final int index = orderTable.convertColumnIndexToModel(selection[0]);
+                    final Order selectedOrder = tableModel.get(index);
                     orderID.setText(selectedOrder.getOrderId());
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
+
                     if(!selectedOrder.getStatus().equals("PENDING")){
                         orderFrom.setEnabled(false);
                         orderTo.setEnabled(false);
@@ -63,15 +79,39 @@ public class OrdersPanel extends javax.swing.JPanel {
                         orderCharge.setEnabled(false);
                         cancelOrderButton.setEnabled(false);
                     }
+                    
+                    // Update the status UI
+                    DefaultComboBoxModel statuses = new DefaultComboBoxModel();
+                    statuses.addElement("PENDING");
+                    statuses.addElement("CONFIRMED");
+                    statuses.addElement("DONE");
+                    statuses.addElement("REJECTED");
+                    status.setModel(statuses);
+                    status.setSelectedItem(selectedOrder.getStatus());
+                    
+                    status.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                String s = (String) status.getSelectedItem();
+                                orderController.updateOrderStatus(
+                                        session.getSessionId(),
+                                        selectedOrder.getOrderId(),
+                                        s);
+                                selectedOrder.setStatus(s);
+                                tableModel.fireTableRowsUpdated(index, index);
+                            } catch (RemoteException ex) {
+                                Utils.showErrorDialog(null, "Communication error!");
+                            }
+                        }
+                    });
                 }
             }
             
         });
-        
-        this.initPermissions();
     }
     
-    private void initPermissions() {
+    private void setupPermissions() {
         @Data
         class ComponentPermissionTuple {
             final Component component;
