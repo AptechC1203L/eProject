@@ -5,13 +5,23 @@
 package client;
 
 import entity.Order;
+import java.awt.Component;
 import java.rmi.RemoteException;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.basic.BasicListUI;
+import rbac.Permission;
 import rbac.Session;
 import rmi.IOrderController;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
+import javax.swing.JComponent;
+import lombok.Data;
 
 /**
  *
@@ -49,6 +59,28 @@ public class OrdersPanel extends javax.swing.JPanel {
                 }
             }
         });
+        
+        this.initPermissions();
+    }
+    
+    private void initPermissions() {
+        @Data
+        class ComponentPermissionTuple {
+            final Component component;
+            final Permission permission;
+        }
+        
+        // rp = required permissions ; to ease typing and reading
+        List<ComponentPermissionTuple> rp = new LinkedList<>();
+        rp.add(new ComponentPermissionTuple(this.createOrderButton, new Permission("create", "order")));
+        
+        List<Permission> allPermissions = session.getAllPermissions();
+        
+        for (ComponentPermissionTuple pair : rp) {
+            if (!allPermissions.contains(pair.permission)) {
+                pair.component.setEnabled(false);
+            }
+        }
     }
 
     /**
@@ -65,7 +97,6 @@ public class OrdersPanel extends javax.swing.JPanel {
         orderTable = new javax.swing.JTable();
         status = new javax.swing.JComboBox();
         orderID = new javax.swing.JLabel();
-        oderID = new javax.swing.JTextField();
         from = new javax.swing.JLabel();
         to = new javax.swing.JLabel();
         weight = new javax.swing.JLabel();
@@ -109,7 +140,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         orderTable.setAlignmentX(1.0F);
         jScrollPane1.setViewportView(orderTable);
 
-        status.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        status.setModel(new javax.swing.DefaultComboBoxModel(new String[] { null }));
         status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statusActionPerformed(evt);
@@ -182,7 +213,6 @@ public class OrdersPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(status, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(oderID)
                             .addComponent(orderFrom)
                             .addComponent(orderTo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                             .addComponent(orderWeight, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
@@ -205,9 +235,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(orderID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(oderID, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                        .addComponent(orderID, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -280,7 +308,6 @@ public class OrdersPanel extends javax.swing.JPanel {
     private javax.swing.JLabel dueDate;
     private javax.swing.JLabel from;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField oderID;
     private javax.swing.JTextField orderCharge;
     private javax.swing.JTextField orderCreate;
     private javax.swing.JTextField orderDelivered;

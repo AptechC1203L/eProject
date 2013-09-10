@@ -43,7 +43,6 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="status" max="32767" attributes="0"/>
-                          <Component id="oderID" max="32767" attributes="0"/>
                           <Component id="orderFrom" max="32767" attributes="0"/>
                           <Component id="orderTo" alignment="1" pref="275" max="32767" attributes="0"/>
                           <Component id="orderWeight" alignment="0" pref="275" max="32767" attributes="0"/>
@@ -73,10 +72,7 @@
               <EmptySpace type="separate" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="orderID" max="32767" attributes="0"/>
-                          <Component id="oderID" pref="33" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="orderID" min="-2" pref="33" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="status" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -188,8 +184,8 @@
     </Container>
     <Component class="javax.swing.JComboBox" name="status">
       <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="new javax.swing.DefaultComboBoxModel(new String[] { &quot;Item 1&quot;, &quot;Item 2&quot;, &quot;Item 3&quot;, &quot;Item 4&quot; })" type="code"/>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
@@ -200,8 +196,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Order"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="oderID">
     </Component>
     <Component class="javax.swing.JLabel" name="from">
       <Properties>
