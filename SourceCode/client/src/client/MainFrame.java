@@ -28,6 +28,7 @@ public class MainFrame extends javax.swing.JFrame {
         IOrderController controller = 
                 (IOrderController) Naming.lookup("rmi://localhost/orders");
         this.tabs.add(new MainPanel(session, controller));
+        this.pack();
     }
 
     /**
