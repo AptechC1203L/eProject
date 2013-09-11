@@ -29,6 +29,26 @@ public class OrderTableModel extends AbstractTableModel {
         return orderList.get(index);
     }
     
+    public boolean set(int index, Order order) {
+        int size = orderList.size();
+        if (size > index && index > -1) {
+            orderList.set(index, order);
+            fireTableRowsUpdated(index, index);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean remove(int index) {
+        int size = orderList.size();
+        if (size > index && index > -1) {
+            orderList.remove(index);
+            fireTableRowsDeleted(index, index);
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     public int getRowCount() {
         return orderList.size();
