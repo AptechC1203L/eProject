@@ -11,12 +11,15 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import rbac.Permission;
 import rbac.Session;
 import rmi.IOrderController;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.AbstractTableModel;
 import lombok.Data;
 
 /**
@@ -28,6 +31,7 @@ public class OrdersPanel extends javax.swing.JPanel {
     private OrderTableModel tableModel;
     final private IOrderController orderController;
     private Order currentOrderShown = null;
+    private int currentTableModelRow = 0;
 
     /**
      * Creates new form mani
@@ -58,6 +62,8 @@ public class OrdersPanel extends javax.swing.JPanel {
                     final int index = orderTable.convertColumnIndexToModel(selection[0]);
                     final Order selectedOrder = tableModel.get(index);
                     currentOrderShown = selectedOrder;
+                    currentTableModelRow = index;
+                    
                     orderID.setText(selectedOrder.getOrderId());
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
@@ -172,7 +178,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         createdByField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        descriptionText = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         orderDueDate = new javax.swing.JSlider();
         jLabel3 = new javax.swing.JLabel();
@@ -408,11 +414,11 @@ public class OrdersPanel extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         infoPanel.add(jLabel1, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setMinimumSize(new java.awt.Dimension(0, 200));
-        jTextArea1.setPreferredSize(new java.awt.Dimension(220, 200));
-        jScrollPane2.setViewportView(jTextArea1);
+        descriptionText.setColumns(20);
+        descriptionText.setRows(5);
+        descriptionText.setMinimumSize(new java.awt.Dimension(0, 200));
+        descriptionText.setPreferredSize(new java.awt.Dimension(220, 200));
+        jScrollPane2.setViewportView(descriptionText);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -486,7 +492,20 @@ public class OrdersPanel extends javax.swing.JPanel {
             orderFrom.getText(),
             orderTo.getText(),
             weight,
-            "");
+            descriptionText.getText());
+        
+        boolean isOk = false;
+        try {
+            isOk = orderController.updateOrder(session.getSessionId(), editedOrder);
+        } catch (RemoteException ex) {
+        } finally {
+            if (isOk) {
+                Utils.showInfoDialog(this, "Done!");
+                this.tableModel.set(currentTableModelRow, editedOrder);
+            } else {
+                Utils.showErrorDialog(this, "Cannot update the order!");
+            }
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deliveredByFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveredByFieldActionPerformed
@@ -510,6 +529,7 @@ public class OrdersPanel extends javax.swing.JPanel {
     private javax.swing.JTextField createdByField;
     private javax.swing.JLabel deliveredBy;
     private javax.swing.JTextField deliveredByField;
+    private javax.swing.JTextArea descriptionText;
     private javax.swing.JPanel detailsPanel;
     private javax.swing.JLabel dueDate;
     private javax.swing.Box.Filler filler1;
@@ -522,7 +542,6 @@ public class OrdersPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField orderCharge;
     private javax.swing.JSlider orderDueDate;
     private javax.swing.JTextField orderFrom;
