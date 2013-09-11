@@ -71,7 +71,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
 
     @Override
     public boolean deleteOrder(String sessionId, String orderId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override

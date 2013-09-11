@@ -20,6 +20,7 @@ import rbac.Session;
 import rmi.IOrderController;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 import lombok.Data;
 
 /**
@@ -461,6 +462,11 @@ public class OrdersPanel extends javax.swing.JPanel {
         buttonsPane.setLayout(flowLayout1);
 
         cancelOrderButton.setText("Cancel Order");
+        cancelOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelOrderButtonActionPerformed(evt);
+            }
+        });
         buttonsPane.add(cancelOrderButton);
 
         saveButton.setText("Save");
@@ -519,6 +525,25 @@ public class OrdersPanel extends javax.swing.JPanel {
     private void createdByFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createdByFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_createdByFieldActionPerformed
+
+    private void cancelOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelOrderButtonActionPerformed
+        boolean isOk = false;
+        try {
+            String sessionId = this.session.getSessionId();
+            String oderId = currentOrderShown.getOrderId();
+            isOk = this.orderController.deleteOrder(sessionId, oderId);
+        } catch (RemoteException ex) {
+            Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if(isOk){
+                Utils.showInfoDialog(this, "Done");
+                tableModel.remove(currentTableModelRow);
+                this.orderTable.repaint();
+            }else {
+                Utils.showErrorDialog(this, "Can't delete order!");
+            }
+        }
+    }//GEN-LAST:event_cancelOrderButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonsPane;
