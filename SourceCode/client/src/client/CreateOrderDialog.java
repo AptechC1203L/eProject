@@ -4,7 +4,7 @@
  */
 package client;
 
-import entity.Order;
+import businessentity.Order;
 import java.rmi.RemoteException;
 import rbac.Session;
 import rmi.IOrderController;

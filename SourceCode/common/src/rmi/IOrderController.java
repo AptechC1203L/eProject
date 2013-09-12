@@ -6,7 +6,7 @@ package rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import entity.Order;
+import businessentity.Order;
 import java.util.List;
 import rbac.Session;
 
