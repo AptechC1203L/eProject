@@ -135,7 +135,10 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         for (ComponentPermissionTuple pair : rp) {
             if (!allPermissions.contains(pair.permission)) {
-                pair.component.setEnabled(false);
+                if (pair.component instanceof JTextComponent)
+                    ((JTextComponent) pair.component).setEditable(false);
+                else 
+                    pair.component.setEnabled(false);
             }
             
         }
