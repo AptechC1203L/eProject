@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package client;
-import entity.Order;
+import businessentity.Order;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;

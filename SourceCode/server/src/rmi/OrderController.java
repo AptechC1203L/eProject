@@ -4,7 +4,7 @@
  */
 package rmi;
 
-import entity.Order;
+import businessentity.Order;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.LinkedList;

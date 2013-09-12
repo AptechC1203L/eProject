@@ -4,7 +4,7 @@
  */
 package client;
 
-import entity.Order;
+import businessentity.Order;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
