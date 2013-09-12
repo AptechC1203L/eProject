@@ -14,7 +14,7 @@ import lombok.NonNull;
  */
 @Data
 public class Order implements Serializable {
-    final private String orderId;
+    final private int orderId;
     @NonNull private String sender;
     @NonNull private String receiver;
     @NonNull private double weight;

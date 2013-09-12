@@ -18,14 +18,14 @@ public interface IOrderController extends Remote {
 
     Order createOrder(String sessionId, Order order) throws RemoteException;
 
-    Order getOrder(String sessionId, String orderId) throws RemoteException;
+    Order getOrder(String sessionId, int orderId) throws RemoteException;
     
     List<Order> getAllOrders(String sessionId) throws RemoteException;
 
     boolean updateOrder(String sessionId, Order newOrder) throws RemoteException;
 
-    boolean deleteOrder(String SessionId, String orderId) throws RemoteException;
+    boolean deleteOrder(String SessionId, int orderId) throws RemoteException;
 
-    boolean updateOrderStatus(String sessionId, String orderId, String newStatus)
+    boolean updateOrderStatus(String sessionId, int orderId, String newStatus)
             throws RemoteException;
 }

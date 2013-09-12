@@ -65,7 +65,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                     currentOrderShown = selectedOrder;
                     currentTableModelRow = index;
                     
-                    orderID.setText(selectedOrder.getOrderId());
+                    orderID.setText(Integer.toString(selectedOrder.getOrderId()));
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
                     orderCharge.setText(Double.toString(selectedOrder.getWeight() * 0.5));
@@ -530,7 +530,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         boolean isOk = false;
         try {
             String sessionId = this.session.getSessionId();
-            String oderId = currentOrderShown.getOrderId();
+            int oderId = currentOrderShown.getOrderId();
             isOk = this.orderController.deleteOrder(sessionId, oderId);
         } catch (RemoteException ex) {
             Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);

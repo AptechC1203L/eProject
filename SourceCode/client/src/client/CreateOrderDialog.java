@@ -162,13 +162,14 @@ public class CreateOrderDialog extends javax.swing.JDialog {
         } else {
             try {
                 String sessionId = this.session.getSessionId();
-                String id = "";
                 String sender = txtFromOrder.getText();
                 String receiver = txtToOrder.getText();
                 double weight = Double.parseDouble(txtWeight.getText());
                 String profile = txtDescription.getText();
-                this.order = new Order(id, sender, receiver, weight, profile);
-                this.order = this.orderController.createOrder(sessionId, order);
+                
+                Order tmpOrder = new Order(0, sender, receiver, weight, profile);
+                this.order = this.orderController.createOrder(sessionId, tmpOrder);
+                
                 this.setVisible(false);
             } catch (RemoteException e) {
             } catch (NumberFormatException ex) {
