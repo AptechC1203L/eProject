@@ -534,12 +534,11 @@ public class OrdersPanel extends javax.swing.JPanel {
             isOk = this.orderController.deleteOrder(sessionId, oderId);
         } catch (RemoteException ex) {
             Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            if(isOk){
+        } finally {
+            if(isOk) {
                 Utils.showInfoDialog(this, "Done");
                 tableModel.remove(currentTableModelRow);
-                this.orderTable.repaint();
-            }else {
+            } else {
                 Utils.showErrorDialog(this, "Can't delete order!");
             }
         }
