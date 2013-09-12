@@ -19,8 +19,10 @@ import rbac.Permission;
 import rbac.Session;
 import rmi.IOrderController;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.JTextComponent;
 import lombok.Data;
 
 /**
@@ -73,23 +75,24 @@ public class OrdersPanel extends javax.swing.JPanel {
                     createdByField.setText("chin");
                     deliveredByField.setText("chin");
 
-                    if(!selectedOrder.getStatus().equals("PENDING")){
-                        orderFrom.setEnabled(false);
-                        orderTo.setEnabled(false);
-                        orderWeight.setEnabled(false);
-                        orderCharge.setEnabled(false);
-                        cancelOrderButton.setEnabled(false);
-                    }
-                    
                     // Update the status UI
                     DefaultComboBoxModel statuses = new DefaultComboBoxModel();
                     statuses.addElement("PENDING");
                     statuses.addElement("CONFIRMED");
                     statuses.addElement("DONE");
                     statuses.addElement("REJECTED");
-                    status.setModel(statuses);
+                    status = new JComboBox(statuses);
                     status.setSelectedItem(selectedOrder.getStatus());
-
+                    
+                    if(!selectedOrder.getStatus().equals("PENDING")){
+                        orderFrom.setEditable(false);
+                        orderTo.setEditable(false);
+                        orderWeight.setEditable(false);
+                        orderCharge.setEditable(false);
+                        cancelOrderButton.setEnabled(false);
+                        descriptionText.setEditable(false);
+                    }
+                                        
                     status.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -102,7 +105,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                                 selectedOrder.setStatus(s);
                                 tableModel.fireTableRowsUpdated(index, index);
                             } catch (RemoteException ex) {
-                                Utils.showErrorDialog(null, "Communication error!");
+                                Utils.showErrorDialog(null, ex.getCause().getMessage());
                             }
                         }
                     });
@@ -130,6 +133,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         rp.add(new ComponentPermissionTuple(this.deliveredByField, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.createdByField, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.orderDueDate, new Permission("update", "order")));
+        rp.add(new ComponentPermissionTuple(this.descriptionText, new Permission("update", "order")));
         rp.add(new ComponentPermissionTuple(this.status, new Permission("update", "order.status")));
         List<Permission> allPermissions = session.getAllPermissions();
 
