@@ -154,6 +154,7 @@ public class CreateOrderDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @SuppressWarnings("empty-statement")
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
         if (txtFromOrder.getText().equals("")
                 | txtToOrder.getText().equals("")
@@ -166,6 +167,9 @@ public class CreateOrderDialog extends javax.swing.JDialog {
                 String sender = txtFromOrder.getText();
                 String receiver = txtToOrder.getText();
                 double weight = Double.parseDouble(txtWeight.getText());
+                if(weight>=1E20||sender.length()>500||receiver.length()>500){
+                    return ;
+                };
                 String profile = txtDescription.getText();
                 this.order = new Order(id, sender, receiver, weight, profile);
                 this.order = this.orderController.createOrder(sessionId, order);
