@@ -20,8 +20,13 @@ import rbac.Session;
 import rmi.IOrderController;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.JTextComponent;
 import lombok.Data;
 
@@ -35,7 +40,7 @@ public class OrdersPanel extends javax.swing.JPanel {
     final private IOrderController orderController;
     private Order currentOrderShown = null;
     private int currentTableModelRow = 0;
-
+    private TableRowSorter<OrderTableModel> sorter;
     /**
      * Creates new form mani
      */
@@ -47,8 +52,45 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         this.setupTable();
         this.setupPermissions();
+        this.oderFinter();
     }
-
+    public void oderFinter() throws RemoteException{
+        sorter = new TableRowSorter<OrderTableModel>(tableModel);
+        orderTable.setRowSorter(sorter);
+        searchBox.getDocument().addDocumentListener(
+                new DocumentListener() {
+                public void insertUpdate(DocumentEvent e) {
+                    try {
+                        newFinter();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                public void removeUpdate(DocumentEvent e) {
+                    try {
+                        newFinter();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                public void changedUpdate(DocumentEvent e) {
+                    try {
+                        newFinter();
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+        });
+    }
+    private void newFinter() throws RemoteException{
+        RowFilter<OrderTableModel, Object> rf = null;
+        try{
+            rf = RowFilter.regexFilter(searchBox.getText(), 0);
+        }catch(java.util.regex.PatternSyntaxException e){
+            return;
+        }
+        sorter.setRowFilter(rf);
+    }
     private void setupTable() throws RemoteException {
         List<Order> allOrders = orderController.getAllOrders(session.getSessionId());
         for (Order order : allOrders) {
