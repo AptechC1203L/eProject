@@ -4,18 +4,26 @@
  */
 package client;
 
+import java.rmi.RemoteException;
+import rbac.Session;
+import rbac.User;
+import rmi.IOrderController;
+import rmi.IUserController;
+
 /**
  *
  * @author kien
  */
 public class UserPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form UserPanel
-     */
-    public UserPanel() {
+    final private Session session;
+    final private IUserController userController;
+    public UserPanel(Session session, IUserController userController) throws RemoteException{
         initComponents();
+        this.session = session;
+        this.userController = userController;
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,8 +49,8 @@ public class UserPanel extends javax.swing.JPanel {
         btnCreat = new javax.swing.JButton();
         btnCheckJournal = new javax.swing.JButton();
         lblInfo = new javax.swing.JLabel();
-        lblImage = new javax.swing.JLabel();
         lblUserName = new javax.swing.JLabel();
+        jPanelImg = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -86,10 +94,26 @@ public class UserPanel extends javax.swing.JPanel {
         btnBack.setText("<<");
 
         btnCreat.setText("Creat User");
+        btnCreat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreatActionPerformed(evt);
+            }
+        });
 
         btnCheckJournal.setText("Check journal");
 
         lblUserName.setText("lewtds");
+
+        javax.swing.GroupLayout jPanelImgLayout = new javax.swing.GroupLayout(jPanelImg);
+        jPanelImg.setLayout(jPanelImgLayout);
+        jPanelImgLayout.setHorizontalGroup(
+            jPanelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanelImgLayout.setVerticalGroup(
+            jPanelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -99,9 +123,9 @@ public class UserPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanelImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -132,8 +156,8 @@ public class UserPanel extends javax.swing.JPanel {
                             .addComponent(cmbChoice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jPanelImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,6 +181,12 @@ public class UserPanel extends javax.swing.JPanel {
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreatActionPerformed
+        User createdUser = new CreateUserDialog(null)
+                .showDialog(session, userController);
+    }//GEN-LAST:event_btnCreatActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCheckJournal;
@@ -166,10 +196,10 @@ public class UserPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelImg;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblImage;
     private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JList listRole;

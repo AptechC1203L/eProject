@@ -7,7 +7,6 @@ package rbac;
 import java.io.Serializable;
 import java.util.ArrayList;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 /**
  *
@@ -15,6 +14,17 @@ import lombok.RequiredArgsConstructor;
  */
 @Data
 public class User implements Serializable {
-    final private String userId;
-    final private String name;
+    private String userId;
+    private String name;
+    private String honorific;
+    private String about;
+    private int phone;  
+
+    public User(String userId, String name, String honorific, String about, int phone) {
+        this.userId = userId;
+        this.name = name;
+        this.honorific = honorific;
+        this.about = about;
+        this.phone = phone;
+    }
 }

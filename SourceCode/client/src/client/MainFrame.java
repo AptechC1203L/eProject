@@ -10,6 +10,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import rbac.Session;
 import rmi.IOrderController;
+import rmi.IUserController;
 
 /**
  *
@@ -27,7 +28,10 @@ public class MainFrame extends javax.swing.JFrame {
         this.session = session;
         IOrderController controller = 
                 (IOrderController) Naming.lookup("rmi://localhost/orders");
+        IUserController usercontroller =
+                (IUserController) Naming.lookup("rmi://localhost/users");
         this.tabs.add("Orders", new OrdersPanel(session, controller));
+        this.tabs.add("Users", new UserPanel(session, usercontroller));
         this.pack();
     }
 

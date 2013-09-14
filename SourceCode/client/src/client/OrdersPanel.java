@@ -52,37 +52,37 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         this.setupTable();
         this.setupPermissions();
-        this.oderFinter();
+        this.orderFilter();
     }
-    public void oderFinter() throws RemoteException{
+    public void orderFilter() throws RemoteException{
         sorter = new TableRowSorter<OrderTableModel>(tableModel);
         orderTable.setRowSorter(sorter);
         searchBox.getDocument().addDocumentListener(
                 new DocumentListener() {
                 public void insertUpdate(DocumentEvent e) {
                     try {
-                        newFinter();
+                        newFilter();
                     } catch (RemoteException ex) {
                         Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 public void removeUpdate(DocumentEvent e) {
                     try {
-                        newFinter();
+                        newFilter();
                     } catch (RemoteException ex) {
                         Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 public void changedUpdate(DocumentEvent e) {
                     try {
-                        newFinter();
+                        newFilter();
                     } catch (RemoteException ex) {
                         Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
         });
     }
-    private void newFinter() throws RemoteException{
+    private void newFilter() throws RemoteException{
         RowFilter<OrderTableModel, Object> rf = null;
         try{
             rf = RowFilter.regexFilter(searchBox.getText(), 0);
@@ -256,6 +256,11 @@ public class OrdersPanel extends javax.swing.JPanel {
         searchBox.setMaximumSize(new java.awt.Dimension(2000, 300));
         searchBox.setMinimumSize(new java.awt.Dimension(200, 19));
         searchBox.setPreferredSize(new java.awt.Dimension(200, 19));
+        searchBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBoxActionPerformed(evt);
+            }
+        });
         tableButtonPanel.add(searchBox);
 
         tablePanel.add(tableButtonPanel);
@@ -592,6 +597,10 @@ public class OrdersPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_cancelOrderButtonActionPerformed
+
+    private void searchBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel buttonsPane;
