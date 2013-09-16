@@ -112,9 +112,10 @@ public class OrdersPanel extends javax.swing.JPanel {
                     orderTo.setText(selectedOrder.getReceiver());
                     orderCharge.setText(Double.toString(selectedOrder.getCharge()));
                     orderWeight.setText(Double.toString(selectedOrder.getWeight()));
-                    createdByField.setText("chin");
-                    deliveredByField.setText("chin");
-
+                    createdByField.setText(selectedOrder.getCreatedBy().getUserId());
+                    deliveredByField.setText(selectedOrder.getDeliveredBy().getUserId());
+                    descriptionText.setText(selectedOrder.getDescription());
+                    
                     // Update the status UI
                     DefaultComboBoxModel statuses = new DefaultComboBoxModel();
                     statuses.addElement("PENDING");
