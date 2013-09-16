@@ -57,33 +57,34 @@ public class OrdersPanel extends javax.swing.JPanel {
         this.setupSearchBox();
     }
 
-    public void setupSearchBox() throws RemoteException {
-        sorter = new TableRowSorter<OrderTableModel>(tableModel);
-        orderTable.setRowSorter(sorter);
+    private void setupSearchBox() throws RemoteException {
         searchBox.getDocument().addDocumentListener(
                 new DocumentListener() {
+            @Override
             public void insertUpdate(DocumentEvent e) {
                 newFilter();
             }
 
+            @Override
             public void removeUpdate(DocumentEvent e) {
                 newFilter();
             }
 
+            @Override
             public void changedUpdate(DocumentEvent e) {
                 newFilter();
             }
-        });
-    }
 
-    private void newFilter() {
-        RowFilter<OrderTableModel, Object> rf = null;
-        try {
-            rf = RowFilter.regexFilter(searchBox.getText(), 0);
-        } catch (java.util.regex.PatternSyntaxException e) {
-            return;
-        }
-        sorter.setRowFilter(rf);
+            private void newFilter() {
+                RowFilter<OrderTableModel, Object> rf = null;
+                try {
+                    rf = RowFilter.regexFilter(searchBox.getText());
+                } catch (java.util.regex.PatternSyntaxException e) {
+                    return;
+                }
+                sorter.setRowFilter(rf);
+            }
+        });
     }
 
     private void setupTable() throws RemoteException {
@@ -99,7 +100,8 @@ public class OrdersPanel extends javax.swing.JPanel {
                 if (!e.getValueIsAdjusting()) {
                     // Show the first selected order in the side bar
                     int[] selection = orderTable.getSelectedRows();
-                    final int index = orderTable.convertColumnIndexToModel(selection[0]);
+                    System.out.println(selection.length);
+                    final int index = orderTable.convertRowIndexToModel(selection[0]);
                     final Order selectedOrder = tableModel.get(index);
                     currentOrderShown = selectedOrder;
                     currentTableModelRow = index;
