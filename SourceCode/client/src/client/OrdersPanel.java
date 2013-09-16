@@ -62,30 +62,21 @@ public class OrdersPanel extends javax.swing.JPanel {
         orderTable.setRowSorter(sorter);
         searchBox.getDocument().addDocumentListener(
                 new DocumentListener() {
-                public void insertUpdate(DocumentEvent e) {
-                    try {
-                        newFilter();
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                public void removeUpdate(DocumentEvent e) {
-                    try {
-                        newFilter();
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                public void changedUpdate(DocumentEvent e) {
-                    try {
-                        newFilter();
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            });
+            public void insertUpdate(DocumentEvent e) {
+                newFinter();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                newFinter();
+            }
+
+            public void changedUpdate(DocumentEvent e) {
+                newFinter();
+            }
+        });
     }
-    private void newFilter() throws RemoteException{
+
+    private void newFinter() {
         RowFilter<OrderTableModel, Object> rf = null;
         try {
             rf = RowFilter.regexFilter(searchBox.getText(), 0);
