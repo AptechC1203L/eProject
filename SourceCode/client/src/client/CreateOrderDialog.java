@@ -163,20 +163,19 @@ public class CreateOrderDialog extends javax.swing.JDialog {
         } else {
             try {
                 String sessionId = this.session.getSessionId();
-                String id = "";
                 String sender = txtFromOrder.getText();
                 String receiver = txtToOrder.getText();
                 double weight = Double.parseDouble(txtWeight.getText());
-                String description = txtDescription.getText();
                 
                 if (weight >= 1E20 || sender.length() > 500 || receiver.length() > 500) {
                     Utils.showErrorDialog(this, "String too long!");
                     return;
                 };
-                                
-                this.order = new Order(id, sender, receiver, weight, description);
+
+                String description = txtDescription.getText();
+                this.order = new Order(0, sender, receiver, weight, description);
                 this.order = this.orderController.createOrder(sessionId, order);
-                
+
                 this.setVisible(false);
             } catch (RemoteException e) {
             } catch (NumberFormatException ex) {

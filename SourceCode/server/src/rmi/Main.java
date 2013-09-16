@@ -4,6 +4,7 @@
  */
 package rmi;
 
+import db.ConnectionFactory;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import rbac.SessionManager;
@@ -15,9 +16,10 @@ public class Main {
 //            System.setSecurityManager(new SecurityManager());
 //        }
         try {
-            
+            ConnectionFactory connFactory =
+                    new ConnectionFactory("localhost", 1433, "sa", "1111", "courier");
             SessionManager m = new SessionManager();
-            OrderController orderController = new OrderController(m);
+            OrderController orderController = new OrderController(m, connFactory);
             IAuthenticator authenticator = new Authenticator(m);
             UserController usercontroller = new UserController(m);
             Registry registry = LocateRegistry.createRegistry(1099);
