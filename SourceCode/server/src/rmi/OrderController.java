@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rbac.Permission;
-import rbac.SessionManager;
+import rbac.SessionCollection;
 
 /**
  *
@@ -30,7 +30,7 @@ public class OrderController extends Controller implements IOrderController {
 
     LinkedList<Order> orders = new LinkedList<>();
 
-    public OrderController(SessionManager sessionManager,
+    public OrderController(SessionCollection sessionManager,
                              ConnectionFactory connectionFactory)
             throws RemoteException {
         super(sessionManager, connectionFactory);
@@ -38,8 +38,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public Order createOrder(String sessionId,  Order order) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("create", "order"));
         int size = this.orders.size();
         Order processedOrder = null; 
@@ -78,8 +77,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public Order getOrder(String sessionId, int orderId) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("view", "order"));
         for (Order order : orders) {
             if (order.getOrderId() == orderId) {
@@ -91,8 +89,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public boolean updateOrder(String sessionId, Order newOrder) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("update", "order"));
 
         for (Order order : orders) {
@@ -111,8 +108,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public boolean updateOrderStatus(String sessionId, int orderId, String newStatus) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("update", "order.status"));
 
         for (Order order : orders) {
@@ -126,8 +122,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public List<Order> getAllOrders(String sessionId) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("view", "order"));
         return orders;
     }

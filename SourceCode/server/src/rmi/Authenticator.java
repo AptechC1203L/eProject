@@ -11,7 +11,7 @@ import java.util.Arrays;
 import rbac.Permission;
 import rbac.Role;
 import rbac.Session;
-import rbac.SessionManager;
+import rbac.SessionCollection;
 import rbac.User;
 
 /**
@@ -20,8 +20,8 @@ import rbac.User;
  */
 public class Authenticator extends UnicastRemoteObject implements IAuthenticator {
 
-    private SessionManager sessionManager;
-    public Authenticator(SessionManager sessionManager) throws RemoteException {
+    private SessionCollection sessionManager;
+    public Authenticator(SessionCollection sessionManager) throws RemoteException {
         super();
         this.sessionManager = sessionManager;
     }
@@ -65,43 +65,17 @@ public class Authenticator extends UnicastRemoteObject implements IAuthenticator
         Session session = null;
         switch (username) {
             case "admin":
-                session = new Session(
-                    generateSessionId(),
-                    adm,
-                    Arrays.asList(admin));
-                sessionManager.add(session);
-                return session;
+                return sessionManager.add(new Session(null, adm));
             case "receptionist":
-                session = new Session(
-                    generateSessionId(),
-                    adm,
-                    Arrays.asList(receptionist));
-                sessionManager.add(session);
-                return session;
+                return sessionManager.add(new Session(null, rep));
             case "deliverer":
-                session = new Session(
-                    generateSessionId(),
-                    adm,
-                    Arrays.asList(deliverer));
-                sessionManager.add(session);
-                return session;
+                return sessionManager.add(new Session(null, del));
             default:
                 return null;
         }
     }
 
-    
-    /**
-     * Generate a random session ID.
-     * 
-     * @return a random MD5 string
-     */
-    private String generateSessionId() {
-        return "chin-session";
-    }
-
     @Override
-    public void logout(String sessionId) throws RemoteException {
-        sessionManager.remove(sessionId);
+    public void logout(String userId) throws RemoteException {
     }
 }

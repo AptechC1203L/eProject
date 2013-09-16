@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import rbac.Permission;
 import rbac.Role;
-import rbac.SessionManager;
+import rbac.SessionCollection;
 import rbac.User;
 
 /**
@@ -26,7 +26,7 @@ import rbac.User;
  */
 public class UserController extends Controller implements IUserController {
 
-    public UserController(SessionManager sessionManager,
+    public UserController(SessionCollection sessionManager,
             ConnectionFactory connectionFactory)
             throws RemoteException {
         super(sessionManager, connectionFactory);
@@ -34,8 +34,7 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public void createUser(String sessionId, User user) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("create", "user"));
         try (Connection conn = connectionFactory.getConnection();
                 PreparedStatement statement = conn.prepareStatement(
@@ -55,8 +54,7 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public User getUser(String sessionId, String username) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("view", "user"));
 
         User user = null;
@@ -79,8 +77,7 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public List<User> getAllUsers(String sessionId) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("view", "user"));
 
         List<User> users = new LinkedList<>();
@@ -102,8 +99,7 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public boolean updateUser(String sessionId, String username, User newUser) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("update", "user"));
         try (Connection conn = connectionFactory.getConnection();
                 PreparedStatement statement = conn.prepareStatement(
@@ -126,8 +122,7 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public boolean deleteUser(String sessionId, String username) throws RemoteException {
-        sessionManager.isAuthorizedThowsException(
-                sessionId,
+        sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("remove", "user"));
         try (Connection conn = connectionFactory.getConnection();
                 PreparedStatement statement = conn.prepareStatement(

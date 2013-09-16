@@ -9,9 +9,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.List;
-import rbac.Permission;
-import rbac.Role;
 import rbac.Session;
 import rmi.IAuthenticator;
 
@@ -133,26 +130,6 @@ public class LoginDialog extends javax.swing.JDialog {
                     (IAuthenticator) Naming.lookup("rmi://localhost/authenticator");
             session = this.authenticator.login(username, password);
             if (session != null) {
-                List<Role> roles = session.getRoles();
-                StringBuilder roleString = new StringBuilder();
-                StringBuilder permString = new StringBuilder();
-
-                for (Role role : roles) {
-                    roleString.append(role.getName());
-                    roleString.append(",");
-
-                    for (Permission p : role.getPermissions()) {
-                        permString.append(p.getAction());
-                        permString.append(" ");
-                        permString.append(p.getTarget());
-                        permString.append(", ");
-                    }
-                }
-
-//                Utils.showInfoDialog(this,
-//                        String.format("You are %s\nand can %s.",
-//                            roleString.toString(),
-//                            permString.toString()));
                 this.setVisible(false);
             } else {
                 Utils.showErrorDialog(this,

@@ -17,4 +17,8 @@ import lombok.Data;
 public class Session implements Serializable {
     private final String sessionId;
     private final User user;
+    
+    public List<Permission> getAllPermissions() {
+        return user.getAllPermissions();
+    }
 }

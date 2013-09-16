@@ -20,10 +20,11 @@ public class SessionCollection {
      * @param session
      * @return the new session's ID
      */
-    public String add(Session session) {
+    public Session add(Session session) {
         String id = generateSessionId();
-        sessions.add(new Session(id, session.getUser()));
-        return id;
+        Session newSession = new Session(id, session.getUser());
+        sessions.add(newSession);
+        return newSession;
     }
     
     public Session get(String sessionId) {

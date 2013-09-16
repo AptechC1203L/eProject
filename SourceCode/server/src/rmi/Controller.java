@@ -7,7 +7,7 @@ package rmi;
 import db.ConnectionFactory;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import rbac.SessionManager;
+import rbac.SessionCollection;
 
 /**
  *
@@ -15,10 +15,10 @@ import rbac.SessionManager;
  */
 public class Controller extends UnicastRemoteObject {
 
-    protected final SessionManager sessionManager;
+    protected final SessionCollection sessionManager;
     protected final ConnectionFactory connectionFactory;
 
-    public Controller(SessionManager sessionManager,
+    public Controller(SessionCollection sessionManager,
             ConnectionFactory connectionFactory)
             throws RemoteException {
         this.sessionManager = sessionManager;
