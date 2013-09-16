@@ -5,6 +5,7 @@
 package rbac;
 
 import java.rmi.AccessException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,6 +15,10 @@ import java.util.List;
 public class SessionCollection {
 
     private List<Session> sessions;
+
+    public SessionCollection() {
+        sessions = new LinkedList<>();
+    }
 
     /**
      * 

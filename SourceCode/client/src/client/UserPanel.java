@@ -183,8 +183,8 @@ public class UserPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreatActionPerformed
-        User createdUser = new CreateUserDialog(null)
-                .showDialog(session, userController);
+//        User createdUser = new CreateUserDialog(null)
+//                .showDialog(session, userController);
     }//GEN-LAST:event_btnCreatActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

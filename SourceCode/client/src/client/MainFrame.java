@@ -26,12 +26,12 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.session = session;
-        IOrderController controller = 
+        IOrderController orderController = 
                 (IOrderController) Naming.lookup("rmi://localhost/orders");
-        IUserController usercontroller =
+        IUserController userController =
                 (IUserController) Naming.lookup("rmi://localhost/users");
-        this.tabs.add("Orders", new OrdersPanel(session, controller));
-        this.tabs.add("Users", new UserPanel(session, usercontroller));
+        this.tabs.add("Orders", new OrdersPanel(session, orderController));
+        this.tabs.add("Users", new UserPanel(session, userController));
         this.pack();
     }
 

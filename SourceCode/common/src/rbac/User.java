@@ -23,6 +23,7 @@ public class User implements Serializable {
     @NonNull private String name;
     private String aboutMe;
     private String phone;
+    private String honorific;
     @NonNull private List<Role> roles;
     
     public User(User prototype) {
@@ -30,6 +31,7 @@ public class User implements Serializable {
         this.name = prototype.name;
         this.aboutMe = prototype.aboutMe;
         this.phone = prototype.phone;
+        this.honorific = prototype.honorific;
     }
     
     public List<Permission> getAllPermissions() {

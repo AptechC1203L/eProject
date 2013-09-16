@@ -113,7 +113,7 @@ public class OrderController extends Controller implements IOrderController {
                 result.updateString("from", newOrder.getSender());
                 result.updateString("to", newOrder.getReceiver());
                 result.updateDouble("weight", newOrder.getWeight());
-                result.updateString("description", newOrder.getProfile());
+                result.updateString("description", newOrder.getDescription());
                 
                 // TODO Other properties
                 result.updateRow();
@@ -146,7 +146,7 @@ public class OrderController extends Controller implements IOrderController {
     public boolean updateOrderStatus(String sessionId, int orderId, String newStatus) throws RemoteException {
         sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("update", "order.status"));
-        
+        return true;
     }
 
     @Override

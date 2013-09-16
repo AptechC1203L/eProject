@@ -6,9 +6,11 @@ package businessentity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import rbac.Role;
 import rbac.User;
 
 /**
@@ -25,8 +27,8 @@ public class Order implements Serializable {
     @NonNull private String description;
     
     // Setup some default values to avoid NullPointerException
-    private User createdBy = new User("-", "N/A", null);
-    private User deliveredBy = new User("-", "N/A", null);
+    private User createdBy = new User("-", "N/A", new LinkedList<Role>());
+    private User deliveredBy = new User("-", "N/A", new LinkedList<Role>());
     private Date timestamp = new Date(0);
     private Date dueDate = new Date(0);
     private Date deliveredOn = new Date(0);
