@@ -5,26 +5,26 @@
 package rbac;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  *
  * @author chin
  */
 @Data
+@RequiredArgsConstructor
 public class User implements Serializable {
-    private String userId;
-    private String name;
-    private String honorific;
-    private String about;
-    private int phone;  
-
-    public User(String userId, String name, String honorific, String about, int phone) {
-        this.userId = userId;
-        this.name = name;
-        this.honorific = honorific;
-        this.about = about;
-        this.phone = phone;
+    final private String userId;
+    @NonNull private String name;
+    private String aboutMe;
+    private String phone;
+    
+    public User(User prototype) {
+        this.userId = prototype.userId;
+        this.name = prototype.name;
+        this.aboutMe = prototype.aboutMe;
+        this.phone = prototype.phone;
     }
 }
