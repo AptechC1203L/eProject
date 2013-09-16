@@ -6,8 +6,6 @@ package client;
 
 import businessentity.Order;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +17,6 @@ import rbac.Permission;
 import rbac.Session;
 import rmi.IOrderController;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -95,6 +92,14 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         this.orderTable.setModel(tableModel);
         
+        // Initialize the status combobox
+        DefaultComboBoxModel statuses = new DefaultComboBoxModel();
+        statuses.addElement("PENDING");
+        statuses.addElement("CONFIRMED");
+        statuses.addElement("DONE");
+        statuses.addElement("REJECTED");
+        status.setModel(statuses);
+        
         // Make the table react to row selection
         this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -117,12 +122,6 @@ public class OrdersPanel extends javax.swing.JPanel {
                     descriptionText.setText(selectedOrder.getDescription());
                     
                     // Update the status UI
-                    DefaultComboBoxModel statuses = new DefaultComboBoxModel();
-                    statuses.addElement("PENDING");
-                    statuses.addElement("CONFIRMED");
-                    statuses.addElement("DONE");
-                    statuses.addElement("REJECTED");
-                    status = new JComboBox(statuses);
                     status.setSelectedItem(selectedOrder.getStatus());
 
                     if (!selectedOrder.getStatus().equals("PENDING")) {
@@ -133,23 +132,6 @@ public class OrdersPanel extends javax.swing.JPanel {
                         cancelOrderButton.setEnabled(false);
                         descriptionText.setEditable(false);
                     }
-
-                    status.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            try {
-                                String s = (String) status.getSelectedItem();
-                                orderController.updateOrderStatus(
-                                        session.getSessionId(),
-                                        selectedOrder.getOrderId(),
-                                        s);
-                                selectedOrder.setStatus(s);
-                                tableModel.fireTableRowsUpdated(index, index);
-                            } catch (RemoteException ex) {
-                                Utils.showErrorDialog(null, ex.getCause().getMessage());
-                            }
-                        }
-                    });
                 }
             }
         });
@@ -553,7 +535,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                 orderTo.getText(),
                 weight,
                 descriptionText.getText());
-
+        
         boolean isOk = false;
         try {
             isOk = orderController.updateOrder(session.getSessionId(), editedOrder);
