@@ -36,7 +36,7 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
                                order.getSender(),
                                order.getReceiver(),
                                order.getWeight(),
-                               order.getProfile());
+                               order.getDescription());
         this.orders.add(processedOrder);
         return processedOrder;
     }
