@@ -5,8 +5,10 @@
 package businessentity;
 
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 import lombok.NonNull;
+import rbac.User;
 
 /**
  *
@@ -19,6 +21,11 @@ public class Order implements Serializable {
     @NonNull private String receiver;
     @NonNull private double weight;
     @NonNull private String description;
+    private User createdBy;
+    private User deliveredBy;
+    private Date timestamp;
+    private Date dueDate;
+    private Date deliveredOn;
     private String status = "PENDING";
     
     public double getCharge() {
