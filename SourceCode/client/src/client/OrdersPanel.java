@@ -63,20 +63,20 @@ public class OrdersPanel extends javax.swing.JPanel {
         searchBox.getDocument().addDocumentListener(
                 new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                newFinter();
+                newFilter();
             }
 
             public void removeUpdate(DocumentEvent e) {
-                newFinter();
+                newFilter();
             }
 
             public void changedUpdate(DocumentEvent e) {
-                newFinter();
+                newFilter();
             }
         });
     }
 
-    private void newFinter() {
+    private void newFilter() {
         RowFilter<OrderTableModel, Object> rf = null;
         try {
             rf = RowFilter.regexFilter(searchBox.getText(), 0);
