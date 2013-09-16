@@ -11,15 +11,17 @@ import rbac.User;
 
 /**
  *
- * @author kien
+ * @author chin
  */
-public interface IUserController extends Remote{
+public interface IUserController extends Remote {
+
     User createUser(String sessionId, User user) throws RemoteException;
-    User getUser(String sessionId, String userId) throws RemoteException;
+
+    User getUser(String sessionId, String username) throws RemoteException;
     
-    List<User> getAllUser(String sessionId) throws RemoteException;
+    List<User> getAllUsers(String sessionId) throws RemoteException;
 
     boolean updateUser(String sessionId, User newUser) throws RemoteException;
 
-    boolean deleteUser(String SessionId, String userId) throws RemoteException;
+    boolean deleteUser(String SessionId, String username) throws RemoteException;
 }
