@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import rbac.User;
 
 /**
@@ -15,6 +16,7 @@ import rbac.User;
  * @author chin
  */
 @Data
+@RequiredArgsConstructor
 public class Order implements Serializable {
     final private String orderId;
     @NonNull private String sender;
@@ -29,6 +31,23 @@ public class Order implements Serializable {
     private Date dueDate = new Date(0);
     private Date deliveredOn = new Date(0);
     private String status = "PENDING";
+    
+    /**
+     * Copy constructor.
+     * @param prototype
+     */
+    public Order(Order prototype) {
+        this.orderId = prototype.orderId;
+        this.sender = prototype.sender;
+        this.receiver = prototype.receiver;
+        this.weight = prototype.weight;
+        this.description = prototype.description;
+        this.createdBy = prototype.createdBy;
+        this.timestamp = new Date(prototype.timestamp.getTime());
+        this.dueDate = new Date(prototype.dueDate.getTime());
+        this.deliveredOn = new Date(prototype.deliveredOn.getTime());
+        this.status = prototype.status;
+    }
     
     public double getCharge() {
         return weight * 0.5;
