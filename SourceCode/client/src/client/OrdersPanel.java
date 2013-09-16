@@ -75,7 +75,7 @@ public class OrdersPanel extends javax.swing.JPanel {
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                newFilter();
+//                newFilter();
             }
 
             private void newFilter() {
