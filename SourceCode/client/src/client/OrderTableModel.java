@@ -56,12 +56,12 @@ public class OrderTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2;
+        return 6;
     }
 
     @Override
     public String getColumnName(int column) {
-        List<String> columnNames = Arrays.asList("ID", "Status");
+        List<String> columnNames = Arrays.asList("ID", "Status", "Sender", "Receiver", "Weight", "Description");
         return columnNames.get(column);
     }
 
@@ -73,6 +73,14 @@ public class OrderTableModel extends AbstractTableModel {
                 return order.getOrderId();
             case 1:
                 return order.getStatus();
+            case 2:
+                return order.getSender();
+            case 3:
+                return order.getReceiver();
+            case 4:
+                return order.getWeight();
+            case 5:
+                return order.getDescription();
             default:
                 return null;
         }
