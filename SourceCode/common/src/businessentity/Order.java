@@ -21,11 +21,13 @@ public class Order implements Serializable {
     @NonNull private String receiver;
     @NonNull private double weight;
     @NonNull private String description;
-    private User createdBy;
-    private User deliveredBy;
-    private Date timestamp;
-    private Date dueDate;
-    private Date deliveredOn;
+    
+    // Setup some default values to avoid NullPointerException
+    private User createdBy = new User("-", "N/A");
+    private User deliveredBy = new User("-", "N/A");
+    private Date timestamp = new Date(0);
+    private Date dueDate = new Date(0);
+    private Date deliveredOn = new Date(0);
     private String status = "PENDING";
     
     public double getCharge() {
