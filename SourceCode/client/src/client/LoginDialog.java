@@ -149,10 +149,10 @@ public class LoginDialog extends javax.swing.JDialog {
                     }
                 }
 
-                Utils.showInfoDialog(this,
-                        String.format("You are %s\nand can %s.",
-                            roleString.toString(),
-                            permString.toString()));
+//                Utils.showInfoDialog(this,
+//                        String.format("You are %s\nand can %s.",
+//                            roleString.toString(),
+//                            permString.toString()));
                 this.setVisible(false);
             } else {
                 Utils.showErrorDialog(this,
