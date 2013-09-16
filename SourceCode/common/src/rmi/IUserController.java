@@ -15,7 +15,7 @@ import rbac.User;
  */
 public interface IUserController extends Remote {
 
-    User createUser(String sessionId, User user) throws RemoteException;
+    void createUser(String sessionId, User user) throws RemoteException;
 
     User getUser(String sessionId, String username) throws RemoteException;
     

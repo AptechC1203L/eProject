@@ -31,20 +31,24 @@ public class UserController extends Controller implements IUserController {
     }
 
     @Override
-    public User createUser(String sessionId, User user) throws RemoteException {
+    public void createUser(String sessionId, User user) throws RemoteException {
         sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("create", "user"));
         try (Connection conn = connectionFactory.getConnection();
-                Statement statement = conn.createStatement()) {
-            statement.executeUpdate(
-                     "INSERT INTO [Users] " +
-                     "(username, name, honorific, about_me, phone) " +
-                     "VALUES (" + serializeUser(user) + ")");
+                PreparedStatement statement = conn.prepareStatement(
+                    "INSERT INTO [Users] " +
+                    "(username, name, honorific, about_me, phone) " +
+                    "VALUES (?, ?, ?, ?, ?)")) {
+            statement.setString(1, user.getUserId());
+            statement.setString(2, user.getName());
+            statement.setString(3, "Mr");
+            statement.setString(4, "Just me");
+            statement.setString(5, "1234");
+            statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return user;
     }
 
     @Override
