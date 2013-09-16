@@ -58,7 +58,7 @@ public class OrdersPanel extends javax.swing.JPanel {
     }
 
     private void setupSearchBox() throws RemoteException {
-        sorter = new TableRowSorter<OrderTableModel>(tableModel);
+        sorter = new TableRowSorter<>(tableModel);
         orderTable.setRowSorter(sorter);
         
         searchBox.getDocument().addDocumentListener(
