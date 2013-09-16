@@ -4,8 +4,10 @@
  */
 package client;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import rbac.Role;
 import rbac.Session;
 import rbac.User;
 import rmi.IUserController;
@@ -155,21 +157,25 @@ public class CreateUserDialog extends javax.swing.JDialog {
                 String sessionId = this.session.getSessionId();
                 String userId = txtUserName.getText();
                 String name = txtName.getText();
-                int phone = Integer.parseInt(txtPhone.getText());
+                String phone = txtPhone.getText();
                 String honorific = txtHonorific.getText();
                 String about = txtAboutme.getText();
                 
-                if( Integer.toString(phone).length() > 11 
-                        |Integer.toString(phone).length() <9
-                        | userId.length() > 35
-                        | name.length() > 40 
-                        | honorific.length() > 500 
-                        | about.length() > 500){
-                    Utils.showErrorDialog(this, " INVALID STRING ");
+                if (phone.length() > 11
+                        || userId.length() > 35
+                        || name.length() > 40
+                        || honorific.length() > 500
+                        || about.length() > 500) {
+                    Utils.showErrorDialog(this, "Invalid input!");
                     return ;
                 };
-                this.user = new User(userId, name, honorific, about, phone);
-                this.user = this.userController.createUser(sessionId, user);
+                
+                this.user = new User(userId, name, new LinkedList<Role>());
+                this.user.setAboutMe(about);
+                this.user.setHonorific(honorific);
+                this.user.setPhone(phone);
+                this.userController.createUser(sessionId, user);
+                
                 this.setVisible(false);
             } catch (RemoteException e) {
             } catch (NumberFormatException ex) {

@@ -148,7 +148,7 @@
                               <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="lblInfo" pref="105" max="32767" attributes="0"/>
+                      <Component id="lblInfo" pref="93" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnCreat" alignment="3" min="-2" max="-2" attributes="0"/>
