@@ -103,7 +103,6 @@ public class OrdersPanel extends javax.swing.JPanel {
                 if (!e.getValueIsAdjusting()) {
                     // Show the first selected order in the side bar
                     int[] selection = orderTable.getSelectedRows();
-                    System.out.println(selection.length);
                     final int index = orderTable.convertRowIndexToModel(selection[0]);
                     final Order selectedOrder = tableModel.get(index);
                     currentOrderShown = selectedOrder;
