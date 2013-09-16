@@ -97,8 +97,27 @@ public class UserController extends Controller implements IUserController {
     }
 
     @Override
-    public boolean updateUser(String sessionId, User newUser) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean updateUser(String sessionId, String username, User newUser) throws RemoteException {
+        sessionManager.isAuthorizedThowsException(
+                sessionId,
+                new Permission("update", "user"));
+        try (Connection conn = connectionFactory.getConnection();
+                PreparedStatement statement = conn.prepareStatement(
+                        "SELECT * FROM [Users] WHERE username = ?",
+                        ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE)) {
+            statement.setString(1, username);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                result.updateString("name", newUser.getName());
+                // TODO Other properties
+                result.updateRow();
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     @Override
