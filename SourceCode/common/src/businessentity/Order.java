@@ -20,4 +20,8 @@ public class Order implements Serializable {
     @NonNull private double weight;
     @NonNull private String description;
     private String status = "PENDING";
+    
+    public double getCharge() {
+        return weight * 0.5;
+    }
 }

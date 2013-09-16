@@ -112,7 +112,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                     orderID.setText(selectedOrder.getOrderId());
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
-                    orderCharge.setText(Double.toString(selectedOrder.getWeight() * 0.5));
+                    orderCharge.setText(Double.toString(selectedOrder.getCharge()));
                     orderWeight.setText(Double.toString(selectedOrder.getWeight()));
                     createdByField.setText("chin");
                     deliveredByField.setText("chin");
