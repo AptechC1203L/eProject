@@ -97,6 +97,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         }
 
         this.orderTable.setModel(tableModel);
+        // Make the table react to row selection
         this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
