@@ -33,7 +33,7 @@ public class UserController extends Controller implements IUserController {
     
     @Override
     public User createUser(String sessionId, User user) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("create", "user"));
         try (Connection conn = connectionFactory.getConnection();
@@ -50,7 +50,7 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public User getUser(String sessionId, String username) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("view", "user"));
         

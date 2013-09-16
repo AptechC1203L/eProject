@@ -38,7 +38,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public Order createOrder(String sessionId,  Order order) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("create", "order"));
         int size = this.orders.size();
@@ -78,7 +78,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public Order getOrder(String sessionId, int orderId) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("view", "order"));
         for (Order order : orders) {
@@ -91,7 +91,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public boolean updateOrder(String sessionId, Order newOrder) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("update", "order"));
 
@@ -111,7 +111,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public boolean updateOrderStatus(String sessionId, int orderId, String newStatus) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("update", "order.status"));
 
@@ -126,7 +126,7 @@ public class OrderController extends Controller implements IOrderController {
 
     @Override
     public List<Order> getAllOrders(String sessionId) throws RemoteException {
-        sessionManager.isAuthorizedWithSideEffect(
+        sessionManager.isAuthorizedThowsException(
                 sessionId,
                 new Permission("view", "order"));
         return orders;

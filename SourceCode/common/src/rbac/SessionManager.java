@@ -37,7 +37,7 @@ public class SessionManager {
      * 
      * @throws AccessException
      */
-    public void isAuthorizedWithSideEffect(
+    public void isAuthorizedThowsException(
             String sessionId,
             Permission permission) throws AccessException {
         if (!isAuthorized(sessionId, permission)) {
