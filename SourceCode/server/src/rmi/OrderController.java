@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
@@ -49,9 +50,9 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement statement = conn.prepareStatement(
                      "INSERT INTO [Orders] " +
-                     "(from, to, creator_id, status, weight, description, timestamp, due_date) " +
-                     "OUTPUT INSERTED.id" +
-                     "VALUES (N'?', N'?', ?, ?, ?, N'?', ?, ?)");
+                     "([from], [to], [creator_id], [status], [weight], [description], [timestamp], [due_date]) " +
+                     "OUTPUT INSERTED.id VALUES " +
+                     "(?, ?, ?, ?, ?, ?, ?, ?)");
                 ) {
             statement.setString(1, order.getSender());
             statement.setString(2, order.getReceiver());
@@ -60,7 +61,8 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
             statement.setDouble(5, order.getWeight());
             statement.setString(6, "Blank description");
             statement.setTimestamp(7, new Timestamp(new Date().getTime()));
-            statement.setTime(8, null);
+            statement.setTimestamp(8, new Timestamp(new Date().getTime()));
+            
             ResultSet output = statement.executeQuery();
             if (output.next()) {
                 // Remember that OUTPUT clause above?
@@ -72,9 +74,10 @@ public class OrderController extends UnicastRemoteObject implements IOrderContro
                                order.getDescription());
             }
         } catch (SQLException ex) {
-            // Returns the null processedOrder
+            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            return processedOrder;
         }
-        return processedOrder;
     }
 
     @Override
