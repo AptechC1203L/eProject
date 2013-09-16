@@ -23,9 +23,6 @@ import javax.swing.JComboBox;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.JTextComponent;
 import lombok.Data;
@@ -97,6 +94,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         }
 
         this.orderTable.setModel(tableModel);
+        
         // Make the table react to row selection
         this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
