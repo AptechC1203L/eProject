@@ -75,25 +75,6 @@ public class UserController extends Controller implements IUserController {
         }
     }
 
-    private User deserializeUser(ResultSet row) throws SQLException {
-        String username = row.getString("username");
-        String name = row.getString("name");
-        String honorific = row.getString("honorific");
-        String about_me = row.getString("about_me");
-        String phone = row.getString("phone");
-
-        User user = new User(username, name);
-        // TODO set the other properties
-
-        return user;
-    }
-
-    private String serializeUser(User user) {
-        return String.format("'%s', '%s', 'Mr', 'just me', '1234'",
-                user.getUserId(),
-                user.getName());
-    }
-
     @Override
     public List<User> getAllUsers(String sessionId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -138,5 +119,18 @@ public class UserController extends Controller implements IUserController {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+    
+    private User deserializeUser(ResultSet row) throws SQLException {
+        String username = row.getString("username");
+        String name = row.getString("name");
+        String honorific = row.getString("honorific");
+        String about_me = row.getString("about_me");
+        String phone = row.getString("phone");
+
+        User user = new User(username, name);
+        // TODO set the other properties
+
+        return user;
     }
 }
