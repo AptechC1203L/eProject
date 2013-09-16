@@ -20,7 +20,7 @@ public class Main {
 //        }
         try {
             ConnectionFactory connFactory =
-                    new ConnectionFactory("localhost", 1433, "sa", "1111", "courier");
+                    new ConnectionFactory("localhost", "sa", "1111", "courier");
             
             SessionCollection m = new SessionCollection();
             

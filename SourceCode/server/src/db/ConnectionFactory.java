@@ -24,17 +24,15 @@ public class ConnectionFactory {
     String connectionUri;
 
     public ConnectionFactory(String address,
-                               int port,
                                String user,
                                String password,
                                String databaseName)
             throws ClassNotFoundException {
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-        connectionUri = String.format("jdbc:sqlserver://%s:%d;"
+        connectionUri = String.format("jdbc:sqlserver://%s;"
                 + "user=%s;password=%s;databaseName=%s",
                 address,
-                port,
                 user,
                 password,
                 databaseName);

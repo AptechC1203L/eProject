@@ -29,11 +29,14 @@ import rbac.User;
  * @author chin
  */
 public class OrderController extends Controller implements IOrderController {
+    private UserController userController;
 
     public OrderController(SessionCollection sessionManager,
-                             ConnectionFactory connectionFactory)
+                             ConnectionFactory connectionFactory,
+                             UserController userController)
             throws RemoteException {
         super(sessionManager, connectionFactory);
+        this.userController = userController;
     }
 
     @Override
@@ -89,7 +92,7 @@ public class OrderController extends Controller implements IOrderController {
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                order = deserializeOrder(result);
+                order = deserializeOrder(result, sessionId);
             }
         } catch (SQLException ex) {
             // FIXME What to do here?
@@ -160,7 +163,7 @@ public class OrderController extends Controller implements IOrderController {
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                orders.add(deserializeOrder(result));
+                orders.add(deserializeOrder(result, sessionId));
             }
         } catch (SQLException ex) {
             // FIXME What to do here?
@@ -174,7 +177,30 @@ public class OrderController extends Controller implements IOrderController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private Order deserializeOrder(ResultSet result) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private Order deserializeOrder(ResultSet result, String sessionId) throws SQLException, RemoteException{
+        int id = result.getInt("id");
+        String sender = result.getString("form");
+        String receiver = result.getString("to");
+        double weight = result.getDouble("weight");
+        String description = result.getString("description");
+        
+        String creator_id = result.getString("creator_id");
+        String deliverer_id = result.getString("deliverer_id");
+        
+        User createdBy = userController.getUser(sessionId, creator_id);
+        User delivererBy = userController.getUser(sessionId, deliverer_id);
+        Date timestamp = result.getDate("timestamp");
+        Date duedate = result.getDate("due_date");
+        Date delivererDate = result.getDate("delivered_date");
+        String status = result.getString("status");
+        
+        Order order = new Order(id, sender, receiver, weight, description);
+        order.setDueDate(duedate);
+        order.setCreatedBy(createdBy);
+        order.setDeliveredBy(delivererBy);
+        order.setTimestamp(timestamp);
+        order.setStatus(status);
+        order.setDeliveredOn(delivererDate);
+        return order;
     }
 }
