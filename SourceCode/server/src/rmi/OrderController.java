@@ -26,18 +26,14 @@ import rbac.SessionManager;
  *
  * @author chin
  */
-public class OrderController extends UnicastRemoteObject implements IOrderController {
+public class OrderController extends Controller implements IOrderController {
 
-    private SessionManager sessionManager;
-    ConnectionFactory connectionFactory;
     LinkedList<Order> orders = new LinkedList<>();
 
     public OrderController(SessionManager sessionManager,
                              ConnectionFactory connectionFactory)
             throws RemoteException {
-        super();
-        this.sessionManager = sessionManager;
-        this.connectionFactory = connectionFactory;
+        super(sessionManager, connectionFactory);
     }
 
     @Override
