@@ -538,7 +538,9 @@ public class OrdersPanel extends javax.swing.JPanel {
         
         boolean isOk = false;
         try {
-            isOk = orderController.updateOrder(session.getSessionId(), editedOrder);
+            isOk = orderController.updateOrder(session.getSessionId(),
+                    currentOrderShown.getOrderId(),
+                    editedOrder);
         } catch (RemoteException ex) {
         } finally {
             if (isOk) {
