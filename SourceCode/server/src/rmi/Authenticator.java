@@ -40,6 +40,8 @@ public class Authenticator extends UnicastRemoteObject implements IAuthenticator
         admPerms.add(new Permission("update", "user"));
         admPerms.add(new Permission("remove", "user"));
         admPerms.add(new Permission("view", "user"));
+        admPerms.add(new Permission("update", "user"));
+        admPerms.add(new Permission("remove", "user"));
         admin.setPermissions(admPerms);
         
         Role receptionist = new Role("receptionist");
@@ -56,10 +58,9 @@ public class Authenticator extends UnicastRemoteObject implements IAuthenticator
         delPerms.add(new Permission("update", "order.status"));
         deliverer.setPermissions(delPerms);
         
-        
-        User adm = new User("admin", "Admin", "admin", "admin", Integer.parseInt("0979389350"));
-        User rep = new User("rep", "Receptionist", "Receptionist","Receptionist", Integer.parseInt("0979389350"));
-        User del = new User("deliverer", "Deliverer", "Deliverer","Deliverer", Integer.parseInt("0979389350"));
+        User adm = new User("admin", "Admin", Arrays.asList(admin));
+        User rep = new User("rep", "Receptionist", Arrays.asList(receptionist));
+        User del = new User("deliverer", "Deliverer", Arrays.asList(deliverer));
         
         Session session = null;
         switch (username) {

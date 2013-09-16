@@ -25,8 +25,8 @@ public class Order implements Serializable {
     @NonNull private String description;
     
     // Setup some default values to avoid NullPointerException
-    private User createdBy = new User("-", "N/A");
-    private User deliveredBy = new User("-", "N/A");
+    private User createdBy = new User("-", "N/A", null);
+    private User deliveredBy = new User("-", "N/A", null);
     private Date timestamp = new Date(0);
     private Date dueDate = new Date(0);
     private Date deliveredOn = new Date(0);

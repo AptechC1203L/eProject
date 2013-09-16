@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rbac.Permission;
+import rbac.Role;
 import rbac.SessionManager;
 import rbac.User;
 
@@ -67,7 +68,7 @@ public class UserController extends Controller implements IUserController {
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                user = deserializeUser(result);
+                user = deserializeUser(result, null);
             }
         } catch (SQLException ex) {
             // FIXME What to do here?
@@ -90,7 +91,7 @@ public class UserController extends Controller implements IUserController {
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                users.add(deserializeUser(result));
+                users.add(deserializeUser(result, null));
             }
         } catch (SQLException ex) {
             throw ex;
@@ -140,14 +141,14 @@ public class UserController extends Controller implements IUserController {
         }
     }
     
-    private User deserializeUser(ResultSet row) throws SQLException {
+    private User deserializeUser(ResultSet row, List<Role> roles) throws SQLException {
         String username = row.getString("username");
         String name = row.getString("name");
         String honorific = row.getString("honorific");
         String about_me = row.getString("about_me");
         String phone = row.getString("phone");
 
-        User user = new User(username, name);
+        User user = new User(username, name, roles);
         // TODO set the other properties
 
         return user;
