@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,7 +78,25 @@ public class UserController extends Controller implements IUserController {
 
     @Override
     public List<User> getAllUsers(String sessionId) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sessionManager.isAuthorizedThowsException(
+                sessionId,
+                new Permission("view", "user"));
+
+        List<User> users = new LinkedList<>();
+        try (Connection conn = connectionFactory.getConnection();
+                PreparedStatement statement = conn.prepareStatement(
+                "SELECT * from [Users]")) {
+
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                users.add(deserializeUser(result));
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            return users;
+        }
     }
 
     @Override
