@@ -35,12 +35,14 @@ import lombok.Data;
  * @author Louis DeRossi
  */
 public class OrdersPanel extends javax.swing.JPanel {
+
     final private Session session;
     private OrderTableModel tableModel;
     final private IOrderController orderController;
     private Order currentOrderShown = null;
     private int currentTableModelRow = 0;
     private TableRowSorter<OrderTableModel> sorter;
+
     /**
      * Creates new form mani
      */
@@ -52,9 +54,10 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         this.setupTable();
         this.setupPermissions();
-        this.orderFilter();
+        this.setupSearchBox();
     }
-    public void orderFilter() throws RemoteException{
+
+    public void setupSearchBox() throws RemoteException {
         sorter = new TableRowSorter<OrderTableModel>(tableModel);
         orderTable.setRowSorter(sorter);
         searchBox.getDocument().addDocumentListener(
@@ -80,17 +83,18 @@ public class OrdersPanel extends javax.swing.JPanel {
                         Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-        });
+            });
     }
     private void newFilter() throws RemoteException{
         RowFilter<OrderTableModel, Object> rf = null;
-        try{
+        try {
             rf = RowFilter.regexFilter(searchBox.getText(), 0);
-        }catch(java.util.regex.PatternSyntaxException e){
+        } catch (java.util.regex.PatternSyntaxException e) {
             return;
         }
         sorter.setRowFilter(rf);
     }
+
     private void setupTable() throws RemoteException {
         List<Order> allOrders = orderController.getAllOrders(session.getSessionId());
         for (Order order : allOrders) {
@@ -101,14 +105,14 @@ public class OrdersPanel extends javax.swing.JPanel {
         this.orderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if (! e.getValueIsAdjusting()) {
+                if (!e.getValueIsAdjusting()) {
                     // Show the first selected order in the side bar
                     int[] selection = orderTable.getSelectedRows();
                     final int index = orderTable.convertColumnIndexToModel(selection[0]);
                     final Order selectedOrder = tableModel.get(index);
                     currentOrderShown = selectedOrder;
                     currentTableModelRow = index;
-                    
+
                     orderID.setText(selectedOrder.getOrderId());
                     orderFrom.setText(selectedOrder.getSender());
                     orderTo.setText(selectedOrder.getReceiver());
@@ -125,8 +129,8 @@ public class OrdersPanel extends javax.swing.JPanel {
                     statuses.addElement("REJECTED");
                     status = new JComboBox(statuses);
                     status.setSelectedItem(selectedOrder.getStatus());
-                    
-                    if(!selectedOrder.getStatus().equals("PENDING")){
+
+                    if (!selectedOrder.getStatus().equals("PENDING")) {
                         orderFrom.setEditable(false);
                         orderTo.setEditable(false);
                         orderWeight.setEditable(false);
@@ -134,7 +138,7 @@ public class OrdersPanel extends javax.swing.JPanel {
                         cancelOrderButton.setEnabled(false);
                         descriptionText.setEditable(false);
                     }
-                                        
+
                     status.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -153,13 +157,13 @@ public class OrdersPanel extends javax.swing.JPanel {
                     });
                 }
             }
-            
         });
     }
 
     private void setupPermissions() {
         @Data
         class ComponentPermissionTuple {
+
             final Component component;
             final Permission permission;
         }
@@ -181,12 +185,13 @@ public class OrdersPanel extends javax.swing.JPanel {
 
         for (ComponentPermissionTuple pair : rp) {
             if (!allPermissions.contains(pair.permission)) {
-                if (pair.component instanceof JTextComponent)
+                if (pair.component instanceof JTextComponent) {
                     ((JTextComponent) pair.component).setEditable(false);
-                else 
+                } else {
                     pair.component.setEnabled(false);
+                }
             }
-            
+
         }
     }
 
@@ -548,12 +553,12 @@ public class OrdersPanel extends javax.swing.JPanel {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         double weight = Double.parseDouble(orderWeight.getText());
         Order editedOrder = new Order(
-            currentOrderShown.getOrderId(),
-            orderFrom.getText(),
-            orderTo.getText(),
-            weight,
-            descriptionText.getText());
-        
+                currentOrderShown.getOrderId(),
+                orderFrom.getText(),
+                orderTo.getText(),
+                weight,
+                descriptionText.getText());
+
         boolean isOk = false;
         try {
             isOk = orderController.updateOrder(session.getSessionId(), editedOrder);
@@ -589,7 +594,7 @@ public class OrdersPanel extends javax.swing.JPanel {
         } catch (RemoteException ex) {
             Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if(isOk) {
+            if (isOk) {
                 Utils.showInfoDialog(this, "Done");
                 tableModel.remove(currentTableModelRow);
             } else {
