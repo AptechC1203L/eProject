@@ -131,4 +131,9 @@ public class OrderController extends Controller implements IOrderController {
                 new Permission("view", "order"));
         return orders;
     }
+
+    @Override
+    public List<Order> getActiveOrders(String sessionId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

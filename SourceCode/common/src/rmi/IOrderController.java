@@ -22,6 +22,8 @@ public interface IOrderController extends Remote {
     
     List<Order> getAllOrders(String sessionId) throws RemoteException;
 
+    List<Order> getActiveOrders(String sessionId) throws RemoteException;
+    
     boolean updateOrder(String sessionId, Order newOrder) throws RemoteException;
 
     boolean deleteOrder(String SessionId, int orderId) throws RemoteException;
