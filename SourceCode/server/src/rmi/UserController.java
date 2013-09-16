@@ -121,8 +121,19 @@ public class UserController extends Controller implements IUserController {
     }
 
     @Override
-    public boolean deleteUser(String SessionId, String username) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean deleteUser(String sessionId, String username) throws RemoteException {
+        sessionManager.isAuthorizedThowsException(
+                sessionId,
+                new Permission("remove", "user"));
+        try (Connection conn = connectionFactory.getConnection();
+                PreparedStatement statement = conn.prepareStatement(
+                "DELETE FROM [Users] WHERE username = ?")) {
+            statement.setString(1, username);
+            int count = statement.executeUpdate();
+            return count > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
-    
 }
