@@ -24,8 +24,9 @@ public class Main {
             
             SessionCollection m = new SessionCollection();
             
-            IOrderController orderController = new OrderController(m, connFactory);
             IUserController userController = new UserController(m, connFactory);
+            IOrderController orderController = new OrderController(m,
+                    connFactory, userController);
             IAuthenticator authenticator = new Authenticator(m);
             
             Registry registry = LocateRegistry.createRegistry(1099);

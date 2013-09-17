@@ -29,13 +29,13 @@ import rbac.User;
  * @author chin
  */
 public class OrderController extends Controller implements IOrderController {
-    private UserController userController;
+    private IUserController userController;
 
     List<IOrderEventListener> listeners = new LinkedList<>();
     
     public OrderController(SessionCollection sessionManager,
                              ConnectionFactory connectionFactory,
-                             UserController userController)
+                             IUserController userController)
             throws RemoteException {
         super(sessionManager, connectionFactory);
         this.userController = userController;
@@ -191,6 +191,7 @@ public class OrderController extends Controller implements IOrderController {
             }
         } catch (SQLException ex) {
             // FIXME What to do here?
+            Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             return orders;
         }
@@ -203,7 +204,7 @@ public class OrderController extends Controller implements IOrderController {
 
     private Order deserializeOrder(ResultSet result, String sessionId) throws SQLException, RemoteException{
         int id = result.getInt("id");
-        String sender = result.getString("form");
+        String sender = result.getString("from");
         String receiver = result.getString("to");
         double weight = result.getDouble("weight");
         String description = result.getString("description");
@@ -225,6 +226,7 @@ public class OrderController extends Controller implements IOrderController {
         order.setTimestamp(timestamp);
         order.setStatus(status);
         order.setDeliveredOn(delivererDate);
+        
         return order;
     }
 

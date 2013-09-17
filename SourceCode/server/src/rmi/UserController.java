@@ -165,8 +165,10 @@ public class UserController extends Controller implements IUserController {
         String about_me = row.getString("about_me");
         String phone = row.getString("phone");
 
-        User user = new User(username, name, roles);
-        // TODO set the other properties
+        User user = new User(username, name, new LinkedList<Role>());
+        user.setPhone(phone);
+        user.setAboutMe(about_me);
+        user.setHonorific(honorific);
 
         return user;
     }
