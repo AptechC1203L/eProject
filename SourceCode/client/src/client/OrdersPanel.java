@@ -536,20 +536,49 @@ public class OrdersPanel extends javax.swing.JPanel {
                 weight,
                 descriptionText.getText());
         
-        boolean isOk = false;
-        try {
-            isOk = orderController.updateOrder(session.getSessionId(),
-                    currentOrderShown.getOrderId(),
-                    editedOrder);
-        } catch (RemoteException ex) {
-        } finally {
-            if (isOk) {
-                Utils.showInfoDialog(this, "Done!");
-                this.tableModel.set(currentTableModelRow, editedOrder);
-            } else {
-                Utils.showErrorDialog(this, "Cannot update the order!");
+        // These properties are not allowed to be edited
+        editedOrder.setTimestamp(currentOrderShown.getTimestamp());
+        editedOrder.setDeliveredOn(currentOrderShown.getDeliveredOn());
+        editedOrder.setCreatedBy(currentOrderShown.getCreatedBy());
+        editedOrder.setDeliveredBy(currentOrderShown.getDeliveredBy());
+        
+        // These are.
+        editedOrder.setDueDate(currentOrderShown.getDueDate());
+        editedOrder.setStatus(currentOrderShown.getStatus());
+        
+        boolean isEverythingOk = false;
+        
+        // Update the status first if it has been changed
+        if (! editedOrder.getStatus().equals(currentOrderShown.getStatus())) {
+            try {
+                isEverythingOk = orderController.updateOrderStatus(
+                        session.getSessionId(),
+                        currentOrderShown.getOrderId(),
+                        editedOrder.getStatus());
+            } catch (RemoteException ex) {
+                Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                isEverythingOk = false;
             }
         }
+        
+        // If the (supposedly) edited order is any different from the
+        // currentOrderShown then issue an update call to the server
+        if (! editedOrder.equals(currentOrderShown)) {
+            try {
+                isEverythingOk = orderController.updateOrder(
+                        session.getSessionId(),
+                        currentOrderShown.getOrderId(),
+                        editedOrder);
+            } catch (RemoteException ex) {
+                Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                isEverythingOk = false;
+            }
+        }
+        
+        if (isEverythingOk)
+            Utils.showInfoDialog(this, "Saved!");
+        else
+            Utils.showErrorDialog(this, "Cannot save the order!");
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deliveredByFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveredByFieldActionPerformed
