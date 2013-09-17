@@ -26,6 +26,8 @@ import rbac.User;
  */
 public class UserController extends Controller implements IUserController {
 
+    List<IUserEventListener> listeners = new LinkedList<>();
+    
     public UserController(SessionCollection sessionManager,
             ConnectionFactory connectionFactory)
             throws RemoteException {
@@ -46,7 +48,13 @@ public class UserController extends Controller implements IUserController {
             statement.setString(3, "Mr");
             statement.setString(4, "Just me");
             statement.setString(5, "1234");
-            statement.executeUpdate();
+            int count = statement.executeUpdate();
+            
+            if (count > 0) {
+                for (IUserEventListener listener : listeners) {
+                    listener.onUserCreated(user);
+                }
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,6 +120,11 @@ public class UserController extends Controller implements IUserController {
                 result.updateString("name", newUser.getName());
                 // TODO Other properties
                 result.updateRow();
+                
+                for (IUserEventListener listener : listeners) {
+                    // TODO This implies having the view-user permission
+                    listener.onUserUpdated(getUser(sessionId, username));
+                }
                 return true;
             }
         } catch (SQLException ex) {
@@ -124,16 +137,25 @@ public class UserController extends Controller implements IUserController {
     public boolean deleteUser(String sessionId, String username) throws RemoteException {
         sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("remove", "user"));
+        
+        User user = getUser(sessionId, username);
+        
         try (Connection conn = connectionFactory.getConnection();
                 PreparedStatement statement = conn.prepareStatement(
                 "DELETE FROM [Users] WHERE username = ?")) {
             statement.setString(1, username);
             int count = statement.executeUpdate();
-            return count > 0;
+            if (count > 0) {
+                for (IUserEventListener listener : listeners) {
+                    // TODO This implies having the view-user permission
+                    listener.onUserRemoved(user);
+                }
+                return true;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+        return false;
     }
     
     private User deserializeUser(ResultSet row, List<Role> roles) throws SQLException {
@@ -147,5 +169,10 @@ public class UserController extends Controller implements IUserController {
         // TODO set the other properties
 
         return user;
+    }
+
+    @Override
+    public void addUserEventListener(IUserEventListener listener) {
+        listeners.add(listener);
     }
 }

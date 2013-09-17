@@ -24,4 +24,6 @@ public interface IUserController extends Remote {
     boolean updateUser(String sessionId, String username, User newUser) throws RemoteException;
 
     boolean deleteUser(String SessionId, String username) throws RemoteException;
+    
+    void addUserEventListener(IUserEventListener listener);
 }

@@ -31,6 +31,8 @@ import rbac.User;
 public class OrderController extends Controller implements IOrderController {
     private UserController userController;
 
+    List<IOrderEventListener> listeners = new LinkedList<>();
+    
     public OrderController(SessionCollection sessionManager,
                              ConnectionFactory connectionFactory,
                              UserController userController)
@@ -54,7 +56,7 @@ public class OrderController extends Controller implements IOrderController {
                 ) {
             statement.setString(1, order.getSender());
             statement.setString(2, order.getReceiver());
-            statement.setString(3, "me");
+            statement.setString(3, sessionManager.get(sessionId).getUser().getUserId());
             statement.setString(4, order.getStatus());
             statement.setDouble(5, order.getWeight());
             statement.setString(6, "Blank description");
@@ -74,6 +76,13 @@ public class OrderController extends Controller implements IOrderController {
         } catch (SQLException ex) {
             Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+            // Notify all the listeners
+            if (processedOrder != null) {
+                for (IOrderEventListener listener : listeners) {
+                    listener.onOrderCreated(order);
+                }
+            }
+                
             return processedOrder;
         }
     }
@@ -120,6 +129,11 @@ public class OrderController extends Controller implements IOrderController {
                 
                 // TODO Other properties
                 result.updateRow();
+                
+                for (IOrderEventListener listener : listeners) {
+                    // TODO This implies having the view-order permission
+                    listener.onOrderUpdated(getOrder(sessionId, orderId));
+                }
                 return true;
             }
         } catch (SQLException ex) {
@@ -138,17 +152,27 @@ public class OrderController extends Controller implements IOrderController {
                 "DELETE from [Orders] where id = ?")) {
             statement.setInt(1, orderId);
             int count = statement.executeUpdate();
-            return count > 0;
+            if (count > 0) {
+                for (IOrderEventListener listener : listeners) {
+                    // TODO This implies having the view-order permission
+                    listener.onOrderRemoved(getOrder(sessionId, orderId));
+                }
+                return true;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(OrderController.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
         }
+        return false;
     }
 
     @Override
     public boolean updateOrderStatus(String sessionId, int orderId, String newStatus) throws RemoteException {
         sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("update", "order.status"));
+        for (IOrderEventListener listener : listeners) {
+            // TODO This implies having the view-order permission
+            listener.onOrderUpdated(getOrder(sessionId, orderId));
+        }
         return true;
     }
 
@@ -202,5 +226,10 @@ public class OrderController extends Controller implements IOrderController {
         order.setStatus(status);
         order.setDeliveredOn(delivererDate);
         return order;
+    }
+
+    @Override
+    public void addOrderEventListener(IOrderEventListener listener) {
+        listeners.add(listener);
     }
 }
