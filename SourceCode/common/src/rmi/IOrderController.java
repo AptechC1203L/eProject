@@ -31,5 +31,5 @@ public interface IOrderController extends Remote {
     boolean updateOrderStatus(String sessionId, int orderId, String newStatus)
             throws RemoteException;
     
-    void addOrderEventListener(IOrderEventListener listener);
+    void addOrderEventListener(IOrderEventListener listener) throws RemoteException;
 }
