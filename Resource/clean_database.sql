@@ -110,9 +110,9 @@ ALTER TABLE [WorkJournal] ADD FOREIGN KEY (presence) REFERENCES [PresenceStatuse
 		
 -- Custom data
 				
-INSERT INTO [Users] VALUES ('admin', 'Administrator', 'Mr.', 'I\'m the admin', '1234')
-INSERT INTO [Users] VALUES ('receptionist', 'Receptionist', 'Mrs.', 'I\'m the receptionist', '1234')
-INSERT INTO [Users] VALUES ('deliverer', 'Deliverer', 'Mr.', 'I\'m the deliverer', '1234')
+INSERT INTO [Users] VALUES ('admin', 'Administrator', 'Mr.', 'I''m the admin', '1234')
+INSERT INTO [Users] VALUES ('receptionist', 'Receptionist', 'Mrs.', 'I''m the receptionist', '1234')
+INSERT INTO [Users] VALUES ('deliverer', 'Deliverer', 'Mr.', 'I''m the deliverer', '1234')
 
 INSERT INTO [OrderStatuses] VALUES ('DELIVERED')
 INSERT INTO [OrderStatuses] VALUES ('REJECTED')
