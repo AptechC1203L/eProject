@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
  * @author chin
  */
 public interface IUserEventListener extends Remote {
+    
     void onUserCreated(User newUser) throws RemoteException;
 
     void onUserRemoved(User removedUser) throws RemoteException;
