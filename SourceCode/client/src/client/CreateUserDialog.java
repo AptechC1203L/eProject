@@ -149,8 +149,8 @@ public class CreateUserDialog extends javax.swing.JDialog {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         if (txtUserName.getText().equals("")
-                | txtName.getText().equals("")
-                | txtPhone.getText().equals("")) {
+                || txtName.getText().equals("")
+                || txtPhone.getText().equals("")) {
             Utils.showErrorDialog(this, "Fields that have * are required!");
         } else {
             try {

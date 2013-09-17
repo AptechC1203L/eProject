@@ -157,8 +157,8 @@ public class CreateOrderDialog extends javax.swing.JDialog {
     @SuppressWarnings("empty-statement")
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
         if (txtFromOrder.getText().equals("")
-                | txtToOrder.getText().equals("")
-                | txtWeight.getText().equals("")) {
+                || txtToOrder.getText().equals("")
+                || txtWeight.getText().equals("")) {
             Utils.showErrorDialog(this, "Fields that have * are required!");
         } else {
             try {
