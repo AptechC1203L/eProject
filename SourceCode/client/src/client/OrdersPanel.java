@@ -23,6 +23,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableRowSorter;
 import javax.swing.text.JTextComponent;
 import lombok.Data;
+import rmi.IOrderEventListener;
 
 /**
  *
@@ -49,6 +50,8 @@ public class OrdersPanel extends javax.swing.JPanel {
         this.setupTable();
         this.setupPermissions();
         this.setupSearchBox();
+        
+        this.orderController.addOrderEventListener(new OrderEventListener(tableModel));
     }
 
     private void setupSearchBox() throws RemoteException {
@@ -520,10 +523,12 @@ public class OrdersPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createOrderButtonActionPerformed
-        Order createdOrder = new CreateOrderDialog(null)
+        Order order = new CreateOrderDialog(null)
                 .showDialog(session, orderController);
-        if (createdOrder != null) {
-            this.tableModel.add(createdOrder);
+        try {
+            this.orderController.createOrder(session.getSessionId(), order);
+        } catch (RemoteException ex) {
+            Logger.getLogger(OrdersPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_createOrderButtonActionPerformed
 
@@ -604,7 +609,6 @@ public class OrdersPanel extends javax.swing.JPanel {
         } finally {
             if (isOk) {
                 Utils.showInfoDialog(this, "Done");
-                tableModel.remove(currentTableModelRow);
             } else {
                 Utils.showErrorDialog(this, "Can't delete order!");
             }

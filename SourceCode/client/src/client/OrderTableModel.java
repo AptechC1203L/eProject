@@ -49,6 +49,16 @@ public class OrderTableModel extends AbstractTableModel {
         return false;
     }
     
+    public int findById(int orderId) {
+        int count = 0;
+        for (Order order : orderList) {
+            if (order.getOrderId() == orderId)
+                return count;
+            count++;
+        }
+        return -1;
+    }
+    
     @Override
     public int getRowCount() {
         return orderList.size();

@@ -174,10 +174,8 @@ public class CreateOrderDialog extends javax.swing.JDialog {
 
                 String description = txtDescription.getText();
                 this.order = new Order(0, sender, receiver, weight, description);
-                this.order = this.orderController.createOrder(sessionId, order);
 
                 this.setVisible(false);
-            } catch (RemoteException e) {
             } catch (NumberFormatException ex) {
                 Utils.showErrorDialog(this, "Weight has to be a number");
             }

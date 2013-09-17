@@ -45,6 +45,7 @@ public class Order implements Serializable {
         this.weight = prototype.weight;
         this.description = prototype.description;
         this.createdBy = prototype.createdBy;
+        this.deliveredBy = prototype.deliveredBy;
         this.timestamp = new Date(prototype.timestamp.getTime());
         this.dueDate = new Date(prototype.dueDate.getTime());
         this.deliveredOn = new Date(prototype.deliveredOn.getTime());

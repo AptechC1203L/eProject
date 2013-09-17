@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rbac.Permission;
+import rbac.Role;
 import rbac.SessionCollection;
 import rbac.User;
 
@@ -79,7 +80,7 @@ public class OrderController extends Controller implements IOrderController {
             // Notify all the listeners
             if (processedOrder != null) {
                 for (IOrderEventListener listener : listeners) {
-                    listener.onOrderCreated(order);
+                    listener.onOrderCreated(processedOrder);
                 }
             }
                 
@@ -146,7 +147,7 @@ public class OrderController extends Controller implements IOrderController {
     public boolean deleteOrder(String sessionId, int orderId) throws RemoteException {
         sessionManager.get(sessionId).getUser().isAuthorizedThowsException(
                 new Permission("remove", "order"));
-        
+        Order toBeRemoved = getOrder(sessionId, orderId);
         try (Connection conn = connectionFactory.getConnection();
                 PreparedStatement statement = conn.prepareStatement(
                 "DELETE from [Orders] where id = ?")) {
@@ -155,7 +156,7 @@ public class OrderController extends Controller implements IOrderController {
             if (count > 0) {
                 for (IOrderEventListener listener : listeners) {
                     // TODO This implies having the view-order permission
-                    listener.onOrderRemoved(getOrder(sessionId, orderId));
+                    listener.onOrderRemoved(toBeRemoved);
                 }
                 return true;
             }
@@ -214,6 +215,10 @@ public class OrderController extends Controller implements IOrderController {
         
         User createdBy = userController.getUser(sessionId, creator_id);
         User delivererBy = userController.getUser(sessionId, deliverer_id);
+        
+        if (delivererBy == null)
+            delivererBy = new User("null", "N/A", new LinkedList<Role>());
+        
         Date timestamp = result.getDate("timestamp");
         Date duedate = result.getDate("due_date");
         Date delivererDate = result.getDate("delivered_date");
@@ -231,7 +236,7 @@ public class OrderController extends Controller implements IOrderController {
     }
 
     @Override
-    public void addOrderEventListener(IOrderEventListener listener) {
+    public void addOrderEventListener(IOrderEventListener listener) throws RemoteException {
         listeners.add(listener);
     }
 }
